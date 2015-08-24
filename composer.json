@@ -1,6 +1,9 @@
 {
   "name": "samsara/phphysics",
+  "type": "library",
   "description": "A library providing physics units which are fully aware of each other, and which can have math operations performed on them.",
+  "keywords": ["physics", "units", "unit", "conversion", "math"],
+  "license": "GPL-2.0",
   "require": {
     "php": ">=5.6.0",
     "ircmaxell/random-lib": "1.1.*"
