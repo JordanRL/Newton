@@ -48,3 +48,7 @@ $mass2 = new Mass(5, $unitComposition, 't'); // 't' = metric ton = 100kg
 $mass->add($mass2);
 echo $mass; // 1000 kg;
 ```
+
+The **MathProvider** has static methods which allow you to perform math operations using the BC Math extension. This is used internally in the project as we might very easily exceed the PHP_INT_MAX limit during unit conversions. It also provides several random functions, including a gaussianRandom() method.
+
+The **PhysicsProvider** has static methods which implement some common physics equations using the correct unit classes.
