@@ -150,41 +150,12 @@ class UnitComposition
 
     public function getMultipliedUnit(Quantity $unit1, Quantity $unit2)
     {
-
-        $unitComp = [];
-
-        foreach ($unit1->getUnitsPresent() as $unitType => $unitCount) {
-            if ($unitCount != 0) {
-                $unitComp[$unitType] += $unitCount;
-            }
-        }
-
-        foreach ($unit2->getUnitsPresent() as $unitType => $unitCount) {
-            if ($unitCount != 0) {
-                $unitComp[$unitType] += $unitCount;
-            }
-        }
-
-        return $this->getUnitCompClass($unitComp);
+        return $this->getMultiUnits([$unit1, $unit2], []);
     }
 
     public function getDividedUnit(Quantity $numerator, Quantity $denominator)
     {
-        $unitComp = [];
-
-        foreach ($numerator->getUnitsPresent() as $unitType => $unitCount) {
-            if ($unitCount != 0) {
-                $unitComp[$unitType] += $unitCount;
-            }
-        }
-
-        foreach ($denominator->getUnitsPresent() as $unitType => $unitCount) {
-            if ($unitCount != 0) {
-                $unitComp[$unitType] -= $unitCount;
-            }
-        }
-
-        return $this->getUnitCompClass($unitComp);
+        return $this->getMultiUnits([$numerator], [$denominator]);
     }
 
     public function getUnitCompClass(array $comp)
