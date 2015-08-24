@@ -1,0 +1,6 @@
+{
+  "name": "Samsara/PHPhysics",
+  "require": {
+    "ircmaxell/random-lib": "1.1.*"
+  }
+}
