@@ -4,14 +4,17 @@ namespace Samsara\PHPhysics\Core;
 
 use Samsara\PHPhysics\Units\Ampere;
 use Samsara\PHPhysics\Units\Charge;
+use Samsara\PHPhysics\Units\Cycles;
 use Samsara\PHPhysics\Units\Density;
 use Samsara\PHPhysics\Units\Energy;
 use Samsara\PHPhysics\Units\Force;
+use Samsara\PHPhysics\Units\Frequency;
 use Samsara\PHPhysics\Units\Length;
 use Samsara\PHPhysics\Units\Area;
 use Samsara\PHPhysics\Units\Mass;
 use Samsara\PHPhysics\Units\Power;
 use Samsara\PHPhysics\Units\Pressure;
+use Samsara\PHPhysics\Units\Temperature;
 use Samsara\PHPhysics\Units\Velocity;
 use Samsara\PHPhysics\Units\Acceleration;
 use Samsara\PHPhysics\Units\Time;
@@ -25,13 +28,16 @@ class UnitComposition
     const AMPERE        = 'Ampere';
     const AREA          = 'Area';
     const CHARGE        = 'Charge';
+    const CYCLES        = 'Cycles';
     const DENSITY       = 'Density';
     const ENERGY        = 'Energy';
     const FORCE         = 'Force';
+    const FREQUENCY     = 'Frequency';
     const LENGTH        = 'Length';
     const MASS          = 'Mass';
     const POWER         = 'Power';
     const PRESSURE      = 'Pressure';
+    const TEMPERATURE   = 'Temperature';
     const TIME          = 'Time';
     const VELOCITY      = 'Velocity';
     const VOLTAGE       = 'Voltage';
@@ -52,6 +58,9 @@ class UnitComposition
             'electricCurrent' => 1,
             'time' => 1
         ],
+        self::CYCLES => [
+            'cycles' => 1
+        ],
         self::DENSITY => [
             'mass' => 1,
             'length' => -3
@@ -65,6 +74,10 @@ class UnitComposition
             'mass' => 1,
             'length' => 1,
             'time' => -2
+        ],
+        self::FREQUENCY => [
+            'cycles' => 1,
+            'time' => -1
         ],
         self::LENGTH => [
             'length' => 1
@@ -81,6 +94,9 @@ class UnitComposition
             'mass' => 1,
             'length' => -1,
             'time' => -2
+        ],
+        self::TEMPERATURE => [
+            'temp' => 1
         ],
         self::TIME => [
             'time' => 1
@@ -190,6 +206,9 @@ class UnitComposition
             case self::CHARGE:
                 return new Charge($value, $this);
 
+            case self::CYCLES:
+                return new Cycles($value, $this);
+
             case self::ENERGY:
                 return new Energy($value, $this);
 
@@ -198,6 +217,9 @@ class UnitComposition
 
             case self::FORCE:
                 return new Force($value, $this);
+
+            case self::FREQUENCY:
+                return new Frequency($value, $this);
 
             case self::LENGTH:
                 return new Length($value, $this);
@@ -210,6 +232,9 @@ class UnitComposition
 
             case self::PRESSURE:
                 return new Pressure($value, $this);
+
+            case self::TEMPERATURE:
+                return new Temperature($value, $this);
 
             case self::TIME:
                 return new Time($value, $this);
