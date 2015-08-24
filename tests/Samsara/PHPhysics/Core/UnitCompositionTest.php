@@ -166,7 +166,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $area = $unit->naiveMultiply($length, $length);
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Unit\\Area',
+            'Samsara\\PHPhysics\\Units\\Area',
             $area
         );
 
