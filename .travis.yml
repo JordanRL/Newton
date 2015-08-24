@@ -5,6 +5,7 @@ php:
 
 before_script:
     - mkdir -p build/logs
+    - composer update
 
 script:
     - phpunit --configuration phpunit.xml.dist --coverage-text
