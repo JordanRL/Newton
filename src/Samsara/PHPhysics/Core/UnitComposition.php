@@ -145,7 +145,7 @@ class UnitComposition
             }
         }
 
-        return self::getUnitCompClass($unitComp);
+        return $this->getUnitCompClass($unitComp);
     }
 
     public function getMultipliedUnit(Quantity $unit1, Quantity $unit2)
@@ -165,7 +165,7 @@ class UnitComposition
             }
         }
 
-        return self::getUnitCompClass($unitComp);
+        return $this->getUnitCompClass($unitComp);
     }
 
     public function getDividedUnit(Quantity $numerator, Quantity $denominator)
@@ -184,12 +184,12 @@ class UnitComposition
             }
         }
 
-        return self::getUnitCompClass($unitComp);
+        return $this->getUnitCompClass($unitComp);
     }
 
     public function getUnitCompClass(array $comp)
     {
-        return self::getUnitClass(self::getUnitCompName($comp));
+        return $this->getUnitClass($this->getUnitCompName($comp));
     }
 
     public function getUnitCompName(array $comp)
