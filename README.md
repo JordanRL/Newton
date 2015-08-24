@@ -10,7 +10,7 @@ The project namespace is `Samsara\PHPhysics\*`.
 
 ## Usage
 
-There are many ways to use this package. The preferred way involves instantiating the UniComposition class and using it as a factory.
+There are many ways to use this package. The preferred way involves instantiating the UnitComposition class and using it as a factory.
 
 In order to allow new unit classes which extend Quantity to work with the UnitComposition class, it was necessary to force instantiation of it.
 
