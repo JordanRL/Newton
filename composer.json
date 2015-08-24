@@ -1,8 +1,13 @@
 {
-  "name": "Samsara/PHPhysics",
+  "name": "samsara/phphysics",
   "description": "A library providing physics units which are fully aware of each other, and which can have math operations performed on them.",
   "require": {
     "php": ">=5.6.0",
     "ircmaxell/random-lib": "1.1.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Samsara\\": "src/"
+    }
   }
 }
