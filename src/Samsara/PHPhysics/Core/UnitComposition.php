@@ -118,6 +118,15 @@ class UnitComposition
 
     public $dynamicUnits = [];
 
+    private $baseUnitTypes = [
+        'length',
+        'mass',
+        'time',
+        'temp',
+        'electricCurrent',
+        'cycles'
+    ];
+
     /**
      * @param string    $class
      * @param array     $composition
@@ -145,6 +154,10 @@ class UnitComposition
     {
         $unitComp = [];
 
+        foreach ($this->baseUnitTypes as $type) {
+            $unitComp[$type] = 0;
+        }
+
         foreach ($numerators as $unit) {
             foreach ($unit->getUnitsPresent() as $unitType => $unitCount) {
                 if ($unitCount != 0) {
@@ -158,6 +171,12 @@ class UnitComposition
                 if ($unitCount != 0) {
                     $unitComp[$unitType] -= $unitCount;
                 }
+            }
+        }
+
+        foreach ($unitComp as $key => $val) {
+            if ($val == 0) {
+                unset($unitComp[$key]);
             }
         }
 
@@ -252,7 +271,7 @@ class UnitComposition
                 if (array_key_exists($unit, $this->dynamicUnits)) {
                     $class = new \ReflectionClass($this->dynamicUnits[$unit]);
 
-                    if ($class->getExtensionName() == 'Samsara\\PHPhysics\\Core\\Quantity') {
+                    if ($class->getParentClass()->getName() == 'Samsara\\PHPhysics\\Core\\Quantity') {
                         return $class->newInstance($value, $this);
                     } else {
                         throw new \Exception('Valid units must extend the Quantity class.');
