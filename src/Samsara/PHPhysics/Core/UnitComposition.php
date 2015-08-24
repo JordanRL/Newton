@@ -239,7 +239,7 @@ class UnitComposition
 
     public function naiveMultiply(Quantity $unit1, Quantity $unit2)
     {
-        $newUnit = self::getMultipliedUnit($unit1, $unit2);
+        $newUnit = $this->getMultipliedUnit($unit1, $unit2);
 
         $newVal = MathProvider::multiply($unit1->toNative()->getValue(), $unit2->toNative()->getValue());
 
@@ -248,7 +248,7 @@ class UnitComposition
 
     public function naiveDivide(Quantity $numerator, Quantity $denominator, $precision = 2)
     {
-        $newUnit = self::getDividedUnit($numerator, $denominator);
+        $newUnit = $this->getDividedUnit($numerator, $denominator);
 
         $newVal = MathProvider::divide($numerator->toNative()->getValue(), $denominator->toNative()->getValue(), $precision);
 
@@ -262,7 +262,7 @@ class UnitComposition
      */
     public function naiveMultiOpt(array $mults, array $divides, $precision = 2)
     {
-        $newUnit = self::getMultiUnits($mults, $divides);
+        $newUnit = $this->getMultiUnits($mults, $divides);
 
         $newVal = 1;
 
