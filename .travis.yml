@@ -3,9 +3,15 @@ php:
     - 5.6
     - 7.0
 
+install:
+    - composer require satooshi/php-coveralls:~0.6@stable
+
 before_script:
     - mkdir -p build/logs
     - composer update
 
 script:
     - phpunit --configuration phpunit.xml.dist --coverage-text
+
+after_success:
+    - php vendor/bin/coveralls -v
