@@ -83,7 +83,8 @@ class MyUnit extends Quantity
     const BIGUNIT = 'bg';
     
     protected $units = [
-        self::SOMEUNIT => 1, // It is the first index in the rates array
+        // It is the first index in the rates array
+        self::SOMEUNIT => 1, 
         self::BIGUNIT => 2
     ];
     
@@ -92,7 +93,8 @@ class MyUnit extends Quantity
     public function __construct($value, UnitComposition $unitComposition, $unit = null)
     {
         $this->rates = [
-            $this->units[self::SOMEUNIT] => '1', // Almost always the 'native' unit is set equal to 1
+            // Almost always the 'native' unit is set equal to 1
+            $this->units[self::SOMEUNIT] => '1', 
             $this->units[self::BIGUNIT] => '1000',
         ];
         
@@ -108,22 +110,28 @@ Then, in the calling context, you must prepare the UnitComposition class with th
 ```php
 $unitComposition = new UnitComposition();
 
-// This will automatically instatiate the class Namespaced\MyUnit() when 'time' has an exponent of 2, and 'mass' has an
-// exponent of 1 after multiple or divide operations using the naive*() methods.
+// This will automatically instatiate the class Namespaced\MyUnit()
+// when 'time' has an exponent of 2, and 'mass' has an exponent of 1
+// after multiple or divide operations using the naive*() methods.
 //
-// The last argument defines how you can refer to the unit in the factory method: getUnitClass()
+// The last argument defines how you can refer to the unit in the 
+// factory method: getUnitClass()
 $unitComposition->addUnit('Namespaced\\MyUnit', ['time' => 2, 'mass' => 1], 'MyUnit');
 
 // Now we can instantiate two ways:
 
-$myunit = $unitComposition->getUnitClass('MyUnit'); // $myunit is now an object of type MyUnit, in its native units, with a value of zero
-$myunit2 = $unitComposition->getUnitClass('MyUnit', 1000); // Object of MyUnit type in native units with value 1000
+// $myunit is now an object of type MyUnit, in its native units, with a value of zero
+$myunit = $unitComposition->getUnitClass('MyUnit'); 
+// Object of MyUnit type in native units with value 1000
+$myunit2 = $unitComposition->getUnitClass('MyUnit', 1000); 
 
 // OR
 
-$myunit3 = new Namespaced\MyUnit(1, $unitComposition, 'bg'); // MyUnit object in BIGUNIT with value 1 == 1000 in SOMEUNIT
+// MyUnit object in BIGUNIT with value 1 == 1000 in SOMEUNIT
+$myunit3 = new Namespaced\MyUnit(1, $unitComposition, 'bg'); 
 
 // We can add them if we want
 
-$myunit3->add($myunit2)->add($myunit); // Automatically converts. $myunit3 now has value of 2 and units of BIGUNIT.
+// Automatically converts. $myunit3 now has value of 2 and units of BIGUNIT.
+$myunit3->add($myunit2)->add($myunit); 
 ```
