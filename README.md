@@ -1,5 +1,7 @@
 # PHPhysics
 
+[![Build Status](https://travis-ci.org/JordanRL/PHPhysics.svg?branch=master)](https://travis-ci.org/JordanRL/PHPhysics) [![Coverage Status](https://coveralls.io/repos/JordanRL/PHPhysics/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/PHPhysics?branch=master)
+
 ## Installation
 
 To install, simply require the package in your composer file:
