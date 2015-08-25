@@ -65,6 +65,30 @@ The **MathProvider** has static methods which allow you to perform math operatio
 
 The **PhysicsProvider** has static methods which implement some common physics equations using the correct unit classes.
 
+An interesting, non-physics use for something like this library is to determine how many times a given server can execute a loop per second. For instance:
+
+```php
+$unitComposition = new UnitComposition();
+
+$start = microtime(true);
+for ($i = 0;$i < 10000;$i++) {
+    // Loop to test
+}
+$end = microtime(true);
+
+$duration = $end - $start;
+$durationInMilliseconds = $duration * 1000;
+
+$time = new Time($durationInMilliseconds, $unitComposition, 'ms');
+$cycles = new Cycles(10000, $unitComposition);
+
+$loopsPerSecond = $unitComposition->naiveDivide($cycle, $time);
+
+// The number of times, as measured, that the computer can execute the loop
+// in a single second.
+echo $loopsPerSecond->getValue();
+```
+
 ## Extending
 
 Adding new units is relatively easy. You must first make your unit class, and this class must extend `Samsara\PHPhysics\Core\Quantity`. This class must define a set of units in the `$units` property (where it defines the index for `$rates`), and then define the relative conversion rates between them.
