@@ -135,3 +135,5 @@ $myunit3 = new Namespaced\MyUnit(1, $unitComposition, 'bg');
 // Automatically converts. $myunit3 now has value of 2 and units of BIGUNIT.
 $myunit3->add($myunit2)->add($myunit); 
 ```
+
+Only the instance of UnitComposition prepared in the way outlined above, with a call to addUnit(), will understand how to automatically return an instance of MyUnit(). Because of this, it is suggested that you treat the UnitComposition class as a service, and use a single instance of it within your application.
