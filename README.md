@@ -24,7 +24,7 @@ The project namespace is `Samsara\PHPhysics\*`.
 
 There are many ways to use this package. The preferred way involves instantiating the UnitComposition class and using it as a factory.
 
-In order to allow new unit classes which extend Quantity to work with the UnitComposition class, it was necessary to force instantiation of it.
+In order to allow new unit classes which extend Quantity to work with the UnitComposition class, it was necessary to force instantiation of it. This is explained in further detail in the **Extending** section.
 
 This also means that if you directly instantiate a unit, you must inject a UnitComposition instance.
 
@@ -64,3 +64,66 @@ echo $mass; // 1000 kg;
 The **MathProvider** has static methods which allow you to perform math operations using the BC Math extension. This is used internally in the project as we might very easily exceed the PHP_INT_MAX limit during unit conversions. It also provides several random functions, including a gaussianRandom() method.
 
 The **PhysicsProvider** has static methods which implement some common physics equations using the correct unit classes.
+
+## Extending
+
+Adding new units is relatively easy. You must first make your unit class, and this class must extend `Samsara\PHPhysics\Core\Quantity`. This class must define a set of units in the `$units` property (where it defines the index for `$rates`), and then define the relative conversion rates between them.
+
+All of the conversions must be in terms of the **native** unit, which is defined in the property `$native`.
+
+### Example
+
+```php
+use Samsara\PHPhysics\Core\Quantity;
+use Samsara\PHPhysics\Core\UnitComposition;
+
+class MyUnit extends Quantity
+{
+    const SOMEUNIT = 'g';
+    const BIGUNIT = 'bg';
+    
+    protected $units = [
+        self::SOMEUNIT => 1, // It is the first index in the rates array
+        self::BIGUNIT => 2
+    ];
+    
+    protected $native = self::SOMEUNIT;
+    
+    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    {
+        $this->rates = [
+            $this->units[self::SOMEUNIT] => '1', // Almost always the 'native' unit is set equal to 1
+            $this->units[self::BIGUNIT] => '1000',
+        ];
+        
+        parent::__construct($value, $unitComposition, $unit)
+        
+        $this->setComposition($unitComposition->dynamicUnits['MyUnit']);
+    }
+}
+```
+
+Then, in the calling context, you must prepare the UnitComposition class with the definitions of what types of units this custom unit contains. This allows the UnitComposition class to automatically use your custom class in multiply and divide operations when it is appropriate to do so.
+
+```php
+$unitComposition = new UnitComposition();
+
+// This will automatically instatiate the class Namespaced\MyUnit() when 'time' has an exponent of 2, and 'mass' has an
+// exponent of 1 after multiple or divide operations using the naive*() methods.
+//
+// The last argument defines how you can refer to the unit in the factory method: getUnitClass()
+$unitComposition->addUnit('Namespaced\\MyUnit', ['time' => 2, 'mass' => 1], 'MyUnit');
+
+// Now we can instantiate two ways:
+
+$myunit = $unitComposition->getUnitClass('MyUnit'); // $myunit is now an object of type MyUnit, in its native units, with a value of zero
+$myunit2 = $unitComposition->getUnitClass('MyUnit', 1000); // Object of MyUnit type in native units with value 1000
+
+// OR
+
+$myunit3 = new Namespaced\MyUnit(1, $unitComposition, 'bg'); // MyUnit object in BIGUNIT with value 1 == 1000 in SOMEUNIT
+
+// We can add them if we want
+
+$myunit3->add($myunit2)->add($myunit); // Automatically converts. $myunit3 now has value of 2 and units of BIGUNIT.
+```
