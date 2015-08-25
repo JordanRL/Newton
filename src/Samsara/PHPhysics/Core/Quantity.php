@@ -152,14 +152,28 @@ abstract class Quantity
 
     public function preConvertedAdd($value)
     {
-        $this->value += $value;
+        $this->value = MathProvider::add($this->value, $value);
 
         return $this;
     }
 
     public function preConvertedSubtract($value)
     {
-        $this->value -= $value;
+        $this->value = MathProvider::subtract($this->value, $value);
+
+        return $this;
+    }
+
+    public function preConvertedMultiply($value)
+    {
+        $this->value = MathProvider::multiply($this->value, $value);
+
+        return $this;
+    }
+
+    public function preCovertedDivide($value, $precision = 2)
+    {
+        $this->value = MathProvider::divide($this->value, $value, $precision);
 
         return $this;
     }
