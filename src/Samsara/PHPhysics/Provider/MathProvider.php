@@ -1,6 +1,6 @@
 <?php
 
-namespace Samsara\PHPhysics\Provider;
+namespace Samsara\Newton\Provider;
 
 use RandomLib\Factory;
 

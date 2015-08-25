@@ -1,26 +1,26 @@
 <?php
 
-namespace Samsara\PHPhysics\Core;
+namespace Samsara\Newton\Core;
 
-use Samsara\PHPhysics\Units\Ampere;
-use Samsara\PHPhysics\Units\Charge;
-use Samsara\PHPhysics\Units\Cycles;
-use Samsara\PHPhysics\Units\Density;
-use Samsara\PHPhysics\Units\Energy;
-use Samsara\PHPhysics\Units\Force;
-use Samsara\PHPhysics\Units\Frequency;
-use Samsara\PHPhysics\Units\Length;
-use Samsara\PHPhysics\Units\Area;
-use Samsara\PHPhysics\Units\Mass;
-use Samsara\PHPhysics\Units\Power;
-use Samsara\PHPhysics\Units\Pressure;
-use Samsara\PHPhysics\Units\Temperature;
-use Samsara\PHPhysics\Units\Velocity;
-use Samsara\PHPhysics\Units\Acceleration;
-use Samsara\PHPhysics\Units\Time;
-use Samsara\PHPhysics\Units\Voltage;
-use Samsara\PHPhysics\Units\Volume;
-use Samsara\PHPhysics\Provider\MathProvider;
+use Samsara\Newton\Units\Ampere;
+use Samsara\Newton\Units\Charge;
+use Samsara\Newton\Units\Cycles;
+use Samsara\Newton\Units\Density;
+use Samsara\Newton\Units\Energy;
+use Samsara\Newton\Units\Force;
+use Samsara\Newton\Units\Frequency;
+use Samsara\Newton\Units\Length;
+use Samsara\Newton\Units\Area;
+use Samsara\Newton\Units\Mass;
+use Samsara\Newton\Units\Power;
+use Samsara\Newton\Units\Pressure;
+use Samsara\Newton\Units\Temperature;
+use Samsara\Newton\Units\Velocity;
+use Samsara\Newton\Units\Acceleration;
+use Samsara\Newton\Units\Time;
+use Samsara\Newton\Units\Voltage;
+use Samsara\Newton\Units\Volume;
+use Samsara\Newton\Provider\MathProvider;
 
 class UnitComposition
 {
@@ -273,7 +273,7 @@ class UnitComposition
 
                     $parent = $class->getParentClass();
 
-                    if ($parent && $parent->getName() == 'Samsara\\PHPhysics\\Core\\Quantity') {
+                    if ($parent && $parent->getName() == 'Samsara\\Newton\\Core\\Quantity') {
                         return $class->newInstance($value, $this);
                     } else {
                         throw new \Exception('Valid units must extend the Quantity class.');

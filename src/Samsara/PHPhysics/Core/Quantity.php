@@ -1,8 +1,8 @@
 <?php
 
-namespace Samsara\PHPhysics\Core;
+namespace Samsara\Newton\Core;
 
-use Samsara\PHPhysics\Provider\MathProvider;
+use Samsara\Newton\Provider\MathProvider;
 
 /**
  * Class Quantity

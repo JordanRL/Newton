@@ -1,9 +1,9 @@
 <?php
 
-namespace Samsara\PHPhysics\Units;
+namespace Samsara\Newton\Units;
 
-use Samsara\PHPhysics\Core\Quantity;
-use Samsara\PHPhysics\Core\UnitComposition;
+use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Core\UnitComposition;
 
 class Temperature extends Quantity
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Samsara\PHPhysics\Provider;
+namespace Samsara\Newton\Provider;
 
-use Samsara\PHPhysics\Units\Acceleration;
-use Samsara\PHPhysics\Core\UnitComposition;
-use Samsara\PHPhysics\Units\Force;
-use Samsara\PHPhysics\Units\Mass;
-use Samsara\PHPhysics\Units\Time;
-use Samsara\PHPhysics\Units\Length;
+use Samsara\Newton\Units\Acceleration;
+use Samsara\Newton\Core\UnitComposition;
+use Samsara\Newton\Units\Force;
+use Samsara\Newton\Units\Mass;
+use Samsara\Newton\Units\Time;
+use Samsara\Newton\Units\Length;
 
 class PhysicsProvider
 {
