@@ -90,11 +90,11 @@ abstract class Quantity
     public function getConversionRate($unit)
     {
         if (!array_key_exists($unit, $this->units)) {
-            throw new \Exception('Cannot undefined unit.');
+            throw new \Exception('Cannot get conversion rate for undefined unit.');
         }
 
         if (!array_key_exists($this->units[$unit], $this->rates)) {
-
+            throw new \Exception('Cannot get conversion rate without defined rate.');
         }
 
         return $this->rates[$this->units[$unit]];
@@ -171,7 +171,7 @@ abstract class Quantity
         return $this;
     }
 
-    public function preCovertedDivide($value, $precision = 2)
+    public function preConvertedDivide($value, $precision = 2)
     {
         $this->value = MathProvider::divide($this->value, $value, $precision);
 
@@ -186,7 +186,7 @@ abstract class Quantity
 
         $oldUnit = $quantity->getUnit();
 
-        $this->value += $quantity->to($this->unit)->getValue();
+        $this->value = MathProvider::add($quantity->to($this->unit)->getValue(), $this->value);
 
         $quantity->to($oldUnit);
 
@@ -199,7 +199,11 @@ abstract class Quantity
             throw new \Exception('Cannot subtract units of two different types.');
         }
 
-        $this->value -= $quantity->to($this->unit)->getValue();
+        $oldUnit = $quantity->getUnit();
+
+        $this->value = MathProvider::subtract($this->value, $quantity->to($this->unit)->getValue());
+
+        $quantity->to($oldUnit);
 
         return $this;
     }
