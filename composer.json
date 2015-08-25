@@ -1,5 +1,5 @@
 {
-  "name": "samsara/phphysics",
+  "name": "samsara/newton",
   "type": "library",
   "description": "A library providing physics units which are fully aware of each other, and which can have math operations performed on them.",
   "keywords": ["physics", "units", "unit", "conversion", "math"],
