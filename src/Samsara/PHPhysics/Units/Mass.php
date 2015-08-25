@@ -30,7 +30,7 @@ class Mass extends Quantity
             $this->units[self::MILLIGRAM]       => '0.000001',
             $this->units[self::GRAM]            => '0.001',
             $this->units[self::KILOGRAM]        => '1',
-            $this->units[self::METRIC_TON]      => '100'
+            $this->units[self::METRIC_TON]      => '1000'
         ];
 
         parent::__construct($value, $unitComposition, $unit);
