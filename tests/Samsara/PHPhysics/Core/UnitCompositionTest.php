@@ -205,4 +205,14 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetUnitCompNameException()
+    {
+        $comp = ['time' => 6];
+        $unit = new UnitComposition();
+
+        $this->setExpectedException('Exception', 'Cannot match the unit definition to an existing unit.');
+
+        $unit->getUnitCompName($comp);
+    }
+
 }
