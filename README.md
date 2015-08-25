@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/JordanRL/Newton.svg?branch=master)](https://travis-ci.org/JordanRL/Newton) [![Coverage Status](https://coveralls.io/repos/JordanRL/Newton/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/Newton?branch=master)
 
+**This project is unit tested against 5.6.X and 7.X, and merges are not accepted unless the tests pass on both.**
+
 ## Installation
 
 To install, simply require the package using composer:
