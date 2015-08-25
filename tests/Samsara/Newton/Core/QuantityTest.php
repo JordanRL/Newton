@@ -1,6 +1,6 @@
 <?php
 
-namespace Samsara\PHPhysics\Core;
+namespace Samsara\Newton\Core;
 
 class QuantityTest extends \PHPUnit_Framework_TestCase
 {

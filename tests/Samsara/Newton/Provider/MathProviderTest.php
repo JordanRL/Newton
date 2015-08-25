@@ -1,6 +1,6 @@
 <?php
 
-namespace Samsara\PHPhysics\Provider;
+namespace Samsara\Newton\Provider;
 
 class MathProviderTest extends \PHPUnit_Framework_TestCase
 {

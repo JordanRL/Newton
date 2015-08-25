@@ -1,12 +1,12 @@
 <?php
 
-namespace Samsara\PHPhysics\Core;
+namespace Samsara\Newton\Core;
 
-use Samsara\PHPhysics\Units\Force;
-use Samsara\PHPhysics\Units\Length;
-use Samsara\PHPhysics\Units\Mass;
-use Samsara\PHPhysics\Units\Acceleration;
-use Samsara\PHPhysics\Units\Frequency;
+use Samsara\Newton\Units\Force;
+use Samsara\Newton\Units\Length;
+use Samsara\Newton\Units\Mass;
+use Samsara\Newton\Units\Acceleration;
+use Samsara\Newton\Units\Frequency;
 
 class UnitCompositionTest extends \PHPUnit_Framework_TestCase
 {
@@ -171,7 +171,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $unit = new UnitComposition();
         $length = new Length(5, $unit);
 
-        /** @var \Samsara\PHPhysics\Units\Area $area */
+        /** @var \Samsara\Newton\Units\Area $area */
         $area = $unit->naiveMultiply($length, $length);
 
         $this->assertInstanceOf(

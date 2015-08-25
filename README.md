@@ -1,24 +1,24 @@
-# PHPhysics
+# Newton
 
-[![Build Status](https://travis-ci.org/JordanRL/PHPhysics.svg?branch=master)](https://travis-ci.org/JordanRL/PHPhysics) [![Coverage Status](https://coveralls.io/repos/JordanRL/PHPhysics/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/PHPhysics?branch=master)
+[![Build Status](https://travis-ci.org/JordanRL/Newton.svg?branch=master)](https://travis-ci.org/JordanRL/Newton) [![Coverage Status](https://coveralls.io/repos/JordanRL/Newton/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/Newton?branch=master)
 
 ## Installation
 
 To install, simply require the package using composer:
 
-    composer require samsara/phphysics
+    composer require samsara/newton
     
 Or include it in your `composer.json` file:
 
 ```json
 {
     "require": {
-        "samsara/phphysics": "~0.1"
+        "samsara/newton": "~0.1"
     }
 }
 ```
 
-The project namespace is `Samsara\PHPhysics\*`.
+The project namespace is `Samsara\Newton\*`.
 
 ## Usage
 
@@ -29,7 +29,7 @@ In order to allow new unit classes which extend Quantity to work with the UnitCo
 This also means that if you directly instantiate a unit, you must inject a UnitComposition instance.
 
 ```php
-$unitComposition = new Samsara\PHPhysics\Core\UnitComposition();
+$unitComposition = new Samsara\Newton\Core\UnitComposition();
 
 $thrust = $unitComposition->getUnitClass(UnitComposition::FORCE, 1000); 
 echo $thrust; // 1000 Newtons
@@ -48,7 +48,7 @@ echo $acceleration; // 1 N/kg [Gravitational field strength]
 You can also add unit of different types.
 
 ```php
-$unitComposition = new Samsara\PHPhysics\Core\UnitComposition();
+$unitComposition = new Samsara\Newton\Core\UnitComposition();
 
 $thrust = $unitComposition->getUnitClass(UnitComposition::FORCE, 1000); 
 echo $thrust; // 1000 Newtons
@@ -91,15 +91,15 @@ echo $loopsPerSecond->getValue();
 
 ## Extending
 
-Adding new units is relatively easy. You must first make your unit class, and this class must extend `Samsara\PHPhysics\Core\Quantity`. This class must define a set of units in the `$units` property (where it defines the index for `$rates`), and then define the relative conversion rates between them.
+Adding new units is relatively easy. You must first make your unit class, and this class must extend `Samsara\Newton\Core\Quantity`. This class must define a set of units in the `$units` property (where it defines the index for `$rates`), and then define the relative conversion rates between them.
 
 All of the conversions must be in terms of the **native** unit, which is defined in the property `$native`.
 
 ### Example
 
 ```php
-use Samsara\PHPhysics\Core\Quantity;
-use Samsara\PHPhysics\Core\UnitComposition;
+use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Core\UnitComposition;
 
 class MyUnit extends Quantity
 {
