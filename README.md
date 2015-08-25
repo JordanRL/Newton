@@ -31,9 +31,9 @@ This also means that if you directly instantiate a unit, you must inject a UnitC
 ```php
 $unitComposition = new Samsara\PHPhysics\Core\UnitComposition();
 
-$thrust = $unitComposition->getUnitClass('Thrust', 1000); 
+$thrust = $unitComposition->getUnitClass(UnitComposition::FORCE, 1000); 
 echo $thrust; // 1000 Newtons
-$mass = $unitComposition->getUnitClass('Mass', 1000); 
+$mass = $unitComposition->getUnitClass(UnitComposition::MASS, 1000); 
 echo $mass; // 1000 kg
 
 $acceleration = $thrust->divideBy($mass);
@@ -50,9 +50,9 @@ You can also add unit of different types.
 ```php
 $unitComposition = new Samsara\PHPhysics\Core\UnitComposition();
 
-$thrust = $unitComposition->getUnitClass('Thrust', 1000); 
+$thrust = $unitComposition->getUnitClass(UnitComposition::FORCE, 1000); 
 echo $thrust; // 1000 Newtons
-$mass = $unitComposition->getUnitClass('Mass', 500); 
+$mass = $unitComposition->getUnitClass(UnitComposition::MASS, 500); 
 echo $mass; // 500 kg
 
 $mass2 = new Mass(5, $unitComposition, 't'); // 't' = metric ton = 100kg
