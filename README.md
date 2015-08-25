@@ -4,10 +4,20 @@
 
 ## Installation
 
-To install, simply require the package in your composer file:
+To install, simply require the package using composer:
 
     composer require samsara/phphysics
     
+Or include it in your `composer.json` file:
+
+```json
+{
+    "require": {
+        "samsara/phphysics": "~0.1"
+    }
+}
+```
+
 The project namespace is `Samsara\PHPhysics\*`.
 
 ## Usage
