@@ -17,12 +17,12 @@ The following guidelines are greatly encouraged, although strict adherence is no
 
 - Coding Style: PSR-2
 - Namespacing:
-- - Within `Samsara\Newton`
-- - PSR-4
+  - Within `Samsara\Newton`
+  - PSR-4
 - Docblock comments should be included and list, at a minimum:
-- - The params
-- - The exceptions thrown
-- - The return value
+  - The params
+  - The exceptions thrown
+  - The return value
 - Comments describing information for the developer should accompany any public methods
 - All methods should return some value. In other words, void is not considered a valid return value within this project.
 - Units, and anything dealing with units, should always treat them as MUTABLE.
