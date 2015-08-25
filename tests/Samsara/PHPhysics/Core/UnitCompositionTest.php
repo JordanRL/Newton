@@ -158,7 +158,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
     {
         $unit = new UnitComposition();
 
-        $unit->addUnit('Samsara\\PHPhysics\\Core\\SIPrefix',  ['time' => 1, 'mass' => 1], 'test3');
+        $unit->addUnit('Samsara\\PHPhysics\\Core\\SIPrefixes',  ['time' => 1, 'mass' => 1], 'test3');
 
         $this->setExpectedException('Exception', 'Valid units must extend the Quantity class.');
 
