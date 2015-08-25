@@ -271,7 +271,9 @@ class UnitComposition
                 if (array_key_exists($unit, $this->dynamicUnits)) {
                     $class = new \ReflectionClass($this->dynamicUnits[$unit]);
 
-                    if ($class->getParentClass()->getName() == 'Samsara\\PHPhysics\\Core\\Quantity') {
+                    $parent = $class->getParentClass();
+
+                    if ($parent && $parent->getName() == 'Samsara\\PHPhysics\\Core\\Quantity') {
                         return $class->newInstance($value, $this);
                     } else {
                         throw new \Exception('Valid units must extend the Quantity class.');
