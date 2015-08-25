@@ -82,7 +82,7 @@ $durationInMilliseconds = $duration * 1000;
 $time = new Time($durationInMilliseconds, $unitComposition, 'ms');
 $cycles = new Cycles(10000, $unitComposition);
 
-$loopsPerSecond = $unitComposition->naiveDivide($cycle, $time);
+$loopsPerSecond = $unitComposition->naiveDivide($cycles, $time);
 
 // The number of times, as measured, that the computer can execute the loop
 // in a single second.
