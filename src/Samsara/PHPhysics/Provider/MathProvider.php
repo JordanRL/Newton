@@ -51,6 +51,16 @@ class MathProvider
         return bcsqrt($num, $scale);
     }
 
+    /**
+     * @param      $min
+     * @param      $max
+     * @param null $std_deviation
+     * @param int  $step
+     *
+     * @return float
+     *
+     * @codeCoverageIgnore
+     */
     public static function gaussianRandom($min, $max, $std_deviation = null, $step = 1) {
         // This makes it so that the average of the min and max is exactly 2.5 standard deviations from both min and max
         // if the size of a standard deviation is not provided
@@ -81,6 +91,13 @@ class MathProvider
         return $random_number;
     }
 
+    /**
+     * @param array $picker
+     *
+     * @return int|string
+     *
+     * @codeCoverageIgnore
+     */
     public static function weightedRandom(array $picker) {
         // The number
         $rand = self::randomInt(1, array_sum($picker));
@@ -104,6 +121,14 @@ class MathProvider
         }
     }
 
+    /**
+     * @param int $min
+     * @param int $max
+     *
+     * @return int
+     *
+     * @codeCoverageIgnore
+     */
     public static function randomInt($min = 0, $max = PHP_INT_MAX)
     {
         $factory = new Factory();
