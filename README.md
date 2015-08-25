@@ -55,10 +55,10 @@ echo $thrust; // 1000 Newtons
 $mass = $unitComposition->getUnitClass(UnitComposition::MASS, 500); 
 echo $mass; // 500 kg
 
-$mass2 = new Mass(5, $unitComposition, 't'); // 't' = metric ton = 100kg
+$mass2 = new Mass(5, $unitComposition, 't'); // 't' = metric ton = 1000kg
 
 $mass->add($mass2);
-echo $mass; // 1000 kg;
+echo $mass; // 5500 kg;
 ```
 
 The **MathProvider** has static methods which allow you to perform math operations using the BC Math extension. This is used internally in the project as we might very easily exceed the PHP_INT_MAX limit during unit conversions. It also provides several random functions, including a gaussianRandom() method.
