@@ -112,7 +112,7 @@ $unitComposition = new UnitComposition();
 
 // This will automatically instatiate the class Namespaced\MyUnit()
 // when 'time' has an exponent of 2, and 'mass' has an exponent of 1
-// after multiple or divide operations using the naive*() methods.
+// after multiply or divide operations using the naive*() methods.
 //
 // The last argument defines how you can refer to the unit in the 
 // factory method: getUnitClass()
