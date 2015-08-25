@@ -163,3 +163,14 @@ $myunit3->add($myunit2)->add($myunit);
 ```
 
 Only the instance of UnitComposition prepared in the way outlined above, with a call to addUnit(), will understand how to automatically return an instance of MyUnit(). Because of this, it is suggested that you treat the UnitComposition class as a service, and use a single instance of it within your application.
+
+## Contributing
+
+Please ensure that pull requests meet the following guidelines:
+
+- New files created in the pull request must have a corresponding unit test file, or must be covered within an existing test file.
+- Your merge may not drop the project's test coverage below 85%.
+- Your merge may not drop the project's test coverage by MORE than 5%.
+- Your merge must pass Tracis-CI build tests for BOTH PHP 5.6.X and PHP 7.X.
+
+For more information, please see the section on [Contributing](CONTRIBUTING.md)
