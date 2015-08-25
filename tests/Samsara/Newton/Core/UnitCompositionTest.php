@@ -54,99 +54,99 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $unit = new UnitComposition();
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Acceleration',
+            'Samsara\\Newton\\Units\\Acceleration',
             $unit->getUnitClass('Acceleration')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Ampere',
+            'Samsara\\Newton\\Units\\Ampere',
             $unit->getUnitClass('Ampere')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Area',
+            'Samsara\\Newton\\Units\\Area',
             $unit->getUnitClass('Area')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Charge',
+            'Samsara\\Newton\\Units\\Charge',
             $unit->getUnitClass('Charge')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Cycles',
+            'Samsara\\Newton\\Units\\Cycles',
             $unit->getUnitClass('Cycles')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Density',
+            'Samsara\\Newton\\Units\\Density',
             $unit->getUnitClass('Density')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Energy',
+            'Samsara\\Newton\\Units\\Energy',
             $unit->getUnitClass('Energy')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Force',
+            'Samsara\\Newton\\Units\\Force',
             $unit->getUnitClass('Force')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Frequency',
+            'Samsara\\Newton\\Units\\Frequency',
             $unit->getUnitClass('Frequency')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Length',
+            'Samsara\\Newton\\Units\\Length',
             $unit->getUnitClass('Length')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Mass',
+            'Samsara\\Newton\\Units\\Mass',
             $unit->getUnitClass('Mass')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Power',
+            'Samsara\\Newton\\Units\\Power',
             $unit->getUnitClass('Power')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Pressure',
+            'Samsara\\Newton\\Units\\Pressure',
             $unit->getUnitClass('Pressure')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Temperature',
+            'Samsara\\Newton\\Units\\Temperature',
             $unit->getUnitClass('Temperature')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Time',
+            'Samsara\\Newton\\Units\\Time',
             $unit->getUnitClass('Time')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Velocity',
+            'Samsara\\Newton\\Units\\Velocity',
             $unit->getUnitClass('Velocity')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Voltage',
+            'Samsara\\Newton\\Units\\Voltage',
             $unit->getUnitClass('Voltage')
         );
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Volume',
+            'Samsara\\Newton\\Units\\Volume',
             $unit->getUnitClass('Volume')
         );
 
-        $unit->addUnit('Samsara\\PHPhysics\\Units\\Volume',  ['time' => 1, 'mass' => 1], 'test');
+        $unit->addUnit('Samsara\\Newton\\Units\\Volume',  ['time' => 1, 'mass' => 1], 'test');
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Volume',
+            'Samsara\\Newton\\Units\\Volume',
             $unit->getUnitClass('test')
         );
 
@@ -159,7 +159,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
     {
         $unit = new UnitComposition();
 
-        $unit->addUnit('Samsara\\PHPhysics\\Core\\SIPrefixes',  ['time' => 1, 'mass' => 1], 'test3');
+        $unit->addUnit('Samsara\\Newton\\Core\\SIPrefixes',  ['time' => 1, 'mass' => 1], 'test3');
 
         $this->setExpectedException('Exception', 'Valid units must extend the Quantity class.');
 
@@ -175,7 +175,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $area = $unit->naiveMultiply($length, $length);
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Area',
+            'Samsara\\Newton\\Units\\Area',
             $area
         );
 
@@ -196,7 +196,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $acceleration = $unit->naiveDivide($thrust, $mass);
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Acceleration',
+            'Samsara\\Newton\\Units\\Acceleration',
             $acceleration
         );
 
@@ -227,7 +227,7 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $frequency = $unit->naiveMultiOpt([$cycles], [$time]);
 
         $this->assertInstanceOf(
-            'Samsara\\PHPhysics\\Units\\Frequency',
+            'Samsara\\Newton\\Units\\Frequency',
             $frequency
         );
 
