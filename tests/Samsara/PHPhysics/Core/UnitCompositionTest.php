@@ -2,7 +2,10 @@
 
 namespace Samsara\PHPhysics\Core;
 
+use Samsara\PHPhysics\Units\Force;
 use Samsara\PHPhysics\Units\Length;
+use Samsara\PHPhysics\Units\Mass;
+use Samsara\PHPhysics\Units\Acceleration;
 
 class UnitCompositionTest extends \PHPUnit_Framework_TestCase
 {
@@ -149,6 +152,11 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Exception', 'Unknown unit type: test2');
 
         $unit->getUnitClass('test2');
+    }
+
+    public function testGetUnitClassException()
+    {
+        $unit = new UnitComposition();
 
         $unit->addUnit('Samsara\\PHPhysics\\Core\\SIPrefix',  ['time' => 1, 'mass' => 1], 'test3');
 
@@ -173,6 +181,27 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '25',
             $area->getValue()
+        );
+    }
+
+    public function testNaiveDivide()
+    {
+        $unit = new UnitComposition();
+
+        $thrust = new Force(1000, $unit);
+        $mass = new Mass(1000, $unit);
+
+        /** @var Acceleration $acceleration */
+        $acceleration = $unit->naiveDivide($thrust, $mass);
+
+        $this->assertInstanceOf(
+            'Samsara\\PHPhysics\\Units\\Acceleration',
+            $acceleration
+        );
+
+        $this->assertEquals(
+            '1',
+            $acceleration->getValue()
         );
     }
 
