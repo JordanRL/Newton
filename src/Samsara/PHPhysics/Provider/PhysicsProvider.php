@@ -13,34 +13,41 @@ class PhysicsProvider
 {
 
     /**
-     * @param Time         $time
-     * @param Acceleration $acceleration
+     * @param Time                  $time
+     * @param Acceleration          $acceleration
+     * @param UnitComposition|null  $unitComposition
      *
      * @return Length
      */
-    public static function distanceFromConstantAccel(Time $time, Acceleration $acceleration)
+    public static function distanceFromConstantAccel(Time $time, Acceleration $acceleration, UnitComposition $unitComposition = null)
     {
-        $units = new UnitComposition();
-        /**
-         * @var Length $distance
-         */
-        $distance = $units->naiveMultiOpt([$time, $time, $acceleration], []);
+        if (is_null($unitComposition)) {
+            $unitComposition = new UnitComposition();
+        }
+
+        /** @var Length $distance */
+        $distance = $unitComposition->naiveMultiOpt([$time, $time, $acceleration], []);
 
         return $distance->preConvertedSubtract(MathProvider::divide($distance->getValue(), 2));
     }
 
     /**
-     * @param Length       $distance
-     * @param Acceleration $acceleration
+     * @param Length                $distance
+     * @param Acceleration          $acceleration
+     * @param UnitComposition|null  $unitComposition
      *
      * @return Time
      */
-    public static function timeFromConstantAccel(Length $distance, Acceleration $acceleration)
+    public static function timeFromConstantAccel(Length $distance, Acceleration $acceleration, UnitComposition $unitComposition = null)
     {
+        if (is_null($unitComposition)) {
+            $unitComposition = new UnitComposition();
+        }
+
         $distance->toNative();
         $acceleration->toNative();
 
-        return new Time(MathProvider::squareRoot(MathProvider::multipleMultiply(2, $distance->getValue(), $acceleration->getValue())));
+        return new Time(MathProvider::squareRoot(MathProvider::multipleMultiply(2, $distance->getValue(), $acceleration->getValue())), $unitComposition);
     }
 
     /**

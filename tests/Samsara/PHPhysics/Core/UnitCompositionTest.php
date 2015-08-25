@@ -6,6 +6,7 @@ use Samsara\PHPhysics\Units\Force;
 use Samsara\PHPhysics\Units\Length;
 use Samsara\PHPhysics\Units\Mass;
 use Samsara\PHPhysics\Units\Acceleration;
+use Samsara\PHPhysics\Units\Frequency;
 
 class UnitCompositionTest extends \PHPUnit_Framework_TestCase
 {
@@ -213,6 +214,27 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Exception', 'Cannot match the unit definition to an existing unit.');
 
         $unit->getUnitCompName($comp);
+    }
+
+    public function testNaiveMultiOpt()
+    {
+        $unit = new UnitComposition();
+
+        $cycles = $unit->getUnitClass('Cycles', 10);
+        $time = $unit->getUnitClass('Time', 1);
+
+        /** @var Frequency $frequency */
+        $frequency = $unit->naiveMultiOpt([$cycles], [$time]);
+
+        $this->assertInstanceOf(
+            'Samsara\\PHPhysics\\Units\\Frequency',
+            $frequency
+        );
+
+        $this->assertEquals(
+            '10',
+            $frequency->getValue()
+        );
     }
 
 }
