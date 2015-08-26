@@ -230,6 +230,8 @@ abstract class Quantity
 
     public function squareRoot(array $numerators, array $denominators, $precision = 2)
     {
+        $numerators[] = $this;
+
         return $this->unitCompClass->naiveSquareRoot($numerators, $denominators, $precision);
     }
 

@@ -70,10 +70,10 @@ class PhysicsProvider
             return $vals['acceleration']->multiplyBySquared($vals['time'])->preConvertedDivide(2);
         } elseif (array_key_exists('length', $vals) && array_key_exists('acceleration', $vals)) {
             /** @return Time */
-            return $vals['length']->squareRoot([2, $vals['acceleration']], []);
+            return $vals['length']->squareRoot([2], [$vals['acceleration']]);
         } else {
             /** @return Acceleration */
-            return $vals['length']->divideBySquared($vals['time'])->preConvertedMultiple(2);
+            return $vals['length']->divideBySquared($vals['time'])->preConvertedMultiply(2);
         }
     }
 
@@ -195,7 +195,7 @@ class PhysicsProvider
             return $vals['energy']->squareRoot([2], [$vals['mass']]);
         } else {
             /** @return Mass */
-            return $vals['energy']->divideBySquared($vals['velocity'])->preConvertedMultiple(2);
+            return $vals['energy']->divideBySquared($vals['velocity'])->preConvertedMultiply(2);
         }
     }
 

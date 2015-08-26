@@ -246,6 +246,81 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
             '10',
             $frequency->getValue()
         );
+
+        $this->assertEquals(
+            '10',
+            $unit->naiveMultiOpt([$time, 2, 5], [])->getValue()
+        );
+
+        $this->assertEquals(
+            '2',
+            $unit->naiveMultiOpt([$time, 10], [5])->getValue()
+        );
+    }
+
+    public function testInvalidNumerator()
+    {
+        $unit = new UnitComposition();
+
+        $this->setExpectedException('Exception', 'Invalid numerator');
+
+        $unit->naiveMultiOpt(['hello', 'world'], []);
+    }
+
+    public function testInvalidDenominator()
+    {
+        $unit = new UnitComposition();
+
+        $this->setExpectedException('Exception', 'Invalid denominator');
+
+        $unit->naiveMultiOpt([], ['hello', 'world']);
+    }
+
+    public function testGetMultipliedUnit()
+    {
+        $unit = new UnitComposition();
+
+        $mass = $unit->getUnitClass(UnitComposition::MASS);
+        $acceleration = $unit->getUnitClass(UnitComposition::ACCELERATION);
+
+        $mass->preConvertedAdd(1);
+        $acceleration->preConvertedAdd(1);
+
+        $this->assertInstanceOf(
+            'Samsara\\Newton\\Units\\Force',
+            $unit->getMultipliedUnit($mass, $acceleration)
+        );
+    }
+
+    public function testNaiveSquareRoot()
+    {
+        $unit = new UnitComposition();
+
+        $length = $unit->getUnitClass(UnitComposition::LENGTH);
+        $acceleration = $unit->getUnitClass(UnitComposition::ACCELERATION);
+
+        $acceleration->preConvertedAdd(1);
+
+        $this->assertInstanceOf(
+            'Samsara\\Newton\\Units\\Time',
+            $length->squareRoot([], [$acceleration])
+        );
+    }
+
+    public function testGetDividedUnit()
+    {
+        $unit = new UnitComposition();
+
+        $mass = $unit->getUnitClass(UnitComposition::MASS);
+        $force = $unit->getUnitClass(UnitComposition::FORCE);
+
+        $mass->preConvertedAdd(1);
+        $force->preConvertedAdd(1);
+
+        $this->assertInstanceOf(
+            'Samsara\\Newton\\Units\\Acceleration',
+            $unit->getDividedUnit($force, $mass)
+        );
     }
 
 }
