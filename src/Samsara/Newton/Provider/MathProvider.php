@@ -33,6 +33,10 @@ class MathProvider
 
     public static function divide($numerator, $denominator, $precision = null)
     {
+        if ($denominator == 0) {
+            throw new \Exception('Cannot divide by zero.');
+        }
+        
         return bcdiv($numerator, $denominator, $precision);
     }
 
