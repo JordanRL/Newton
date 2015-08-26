@@ -8,19 +8,19 @@
 
 To install, simply require the package using composer:
 
-    composer require samsara/newton
+    composer require samsara/newton "~0.2"
     
 Or include it in your `composer.json` file:
 
 ```json
 {
     "require": {
-        "samsara/newton": "~0.1"
+        "samsara/newton": "~0.2"
     }
 }
 ```
 
-The project namespace is `Samsara\Newton\*`.
+The project namespace is `Samsara\Newton\*`. You can view th eproject on [Packagist](https://packagist.org/packages/samsara/newton).
 
 ## Usage
 
