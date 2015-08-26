@@ -61,7 +61,8 @@ class MathProvider
      *
      * @codeCoverageIgnore
      */
-    public static function gaussianRandom($min, $max, $std_deviation = null, $step = 1) {
+    public static function gaussianRandom($min, $max, $std_deviation = null, $step = 1)
+    {
         // This makes it so that the average of the min and max is exactly 2.5 standard deviations from both min and max
         // if the size of a standard deviation is not provided
         if (is_null($std_deviation)) {
@@ -98,7 +99,8 @@ class MathProvider
      *
      * @codeCoverageIgnore
      */
-    public static function weightedRandom(array $picker) {
+    public static function weightedRandom(array $picker)
+    {
         // The number
         $rand = self::randomInt(1, array_sum($picker));
         $limit = 0;

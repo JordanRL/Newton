@@ -35,6 +35,7 @@ class UnitComposition
     const FREQUENCY     = 'Frequency';
     const LENGTH        = 'Length';
     const MASS          = 'Mass';
+    const MOMENTUM      = 'Momentum';
     const POWER         = 'Power';
     const PRESSURE      = 'Pressure';
     const TEMPERATURE   = 'Temperature';
@@ -84,6 +85,11 @@ class UnitComposition
         ],
         self::MASS => [
             'mass' => 1
+        ],
+        self::MOMENTUM => [
+            'mass' => 1,
+            'length' => 1,
+            'time' => -1
         ],
         self::POWER => [
             'mass' => 1,
@@ -152,6 +158,13 @@ class UnitComposition
      */
     public function getMultiUnits(array $numerators, array $denominators)
     {
+        $unitComp = $this->getUnitCompArray($numerators, $denominators);
+
+        return $this->getUnitCompClass($unitComp);
+    }
+
+    public function getUnitCompArray(array $numerators, array $denominators)
+    {
         $unitComp = [];
 
         foreach ($this->baseUnitTypes as $type) {
@@ -180,7 +193,7 @@ class UnitComposition
             }
         }
 
-        return $this->getUnitCompClass($unitComp);
+        return $unitComp;
     }
 
     public function getMultipliedUnit(Quantity $unit1, Quantity $unit2)
@@ -285,42 +298,104 @@ class UnitComposition
 
     public function naiveMultiply(Quantity $unit1, Quantity $unit2)
     {
-        $newUnit = $this->getMultipliedUnit($unit1, $unit2);
-
-        $newVal = MathProvider::multiply($unit1->toNative()->getValue(), $unit2->toNative()->getValue());
-
-        return $newUnit->preConvertedAdd($newVal);
+        return $this->naiveMultiOpt([$unit1, $unit2], []);
     }
 
     public function naiveDivide(Quantity $numerator, Quantity $denominator, $precision = 2)
     {
-        $newUnit = $this->getDividedUnit($numerator, $denominator);
+        return $this->naiveMultiOpt([$numerator], [$denominator], $precision);
+    }
 
-        $newVal = MathProvider::divide($numerator->toNative()->getValue(), $denominator->toNative()->getValue(), $precision);
+    /**
+     * @param Quantity[] $numerators
+     * @param Quantity[] $denominators
+     * @param int        $precision
+     *
+     * @return Quantity
+     * @throws \Exception
+     */
+    public function naiveMultiOpt(array $numerators, array $denominators, $precision = 2)
+    {
+        $newUnit = $this->getMultiUnits($numerators, $denominators);
+
+        $newVal = 1;
+
+        foreach ($numerators as $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                $newVal = MathProvider::multiply($newVal, $quantity->toNative()->getValue());
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                $newVal = MathProvider::multiply($newVal, $quantity);
+            } else {
+                throw new \Exception('Invalid numerator');
+            }
+        }
+
+        foreach ($denominators as $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                $newVal = MathProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                $newVal = MathProvider::divide($newVal, $quantity, $precision);
+            } else {
+                throw new \Exception('Invalid denominator');
+            }
+        }
 
         return $newUnit->preConvertedAdd($newVal);
     }
 
     /**
-     * @param Quantity[] $mults
-     * @param Quantity[] $divides
+     * @param array $numerators
+     * @param array $denominators
      * @param int        $precision
+     *
+     * @return Quantity
+     * @throws \Exception
      */
-    public function naiveMultiOpt(array $mults, array $divides, $precision = 2)
+    public function naiveSquareRoot(array $numerators, array $denominators, $precision = 2)
     {
-        $newUnit = $this->getMultiUnits($mults, $divides);
+        $unitComp = $this->getUnitCompArray($numerators, $denominators);
+
+        foreach ($unitComp as $unit => $exp) {
+            $newExp = $exp/2;
+            if (!is_int($newExp)) {
+                throw new \Exception('Incorrect exponents after square root.');
+            }
+            $unitComp[$unit] = $newExp;
+        }
+
+        $newUnit = $this->getUnitCompClass($unitComp);
 
         $newVal = 1;
 
-        foreach ($mults as $quantity) {
-            $newVal = MathProvider::multiply($newVal, $quantity->toNative()->getValue());
+        foreach ($numerators as $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                $newVal = MathProvider::multiply($newVal, $quantity->toNative()->getValue());
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                $newVal = MathProvider::multiply($newVal, $quantity);
+            } else {
+                throw new \Exception('Invalid numerator');
+            }
         }
 
-        foreach ($divides as $quantity) {
-            $newVal = MathProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
+        foreach ($denominators as $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                $newVal = MathProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                $newVal = MathProvider::divide($newVal, $quantity, $precision);
+            } else {
+                throw new \Exception('Invalid denominator');
+            }
         }
 
-        return $newUnit->preConvertedAdd($newVal);
+        return $newUnit->preConvertedAdd(MathProvider::squareRoot($newVal, $precision));
     }
 
 }

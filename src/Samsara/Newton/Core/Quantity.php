@@ -228,6 +228,11 @@ abstract class Quantity
         return $this->unitCompClass->naiveMultiOpt([$this], [$quantity, $quantity], $precision);
     }
 
+    public function squareRoot(array $numerators, array $denominators, $precision = 2)
+    {
+        return $this->unitCompClass->naiveSquareRoot($numerators, $denominators, $precision);
+    }
+
     /**
      * @return string
      */
