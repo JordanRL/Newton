@@ -2,6 +2,21 @@
 
 This document lays out the guidelines for contributing to this project.
 
+## Reporting Bugs & Opening Issues
+
+Please adhere to these guidelines when reporting bugs:
+
+- If the bug exists in a specific class/method, provide that in the title.
+- Provide as much detail as possible on how to reproduce the bug, including values.
+- If you have a proposed way to solve the problem, please **reply to your bug report with your solution**, do not list it in the description of the issue.
+
+If you want to open up an issue for any other reason, please adhere to these guidelines:
+
+- Keep the title around 5-7 words.
+- Do not include the words "feature" or synonyms in the title. We will handle that with tags.
+- If you want something improved in a specific class, please mention that. Example title: *"Add 'cubit' conversion to Length class"*
+- Discussion issues should start with a question (hence the discussion), so end the title in a question mark. :)
+
 ## Merge Acceptance Requirements
 
 In order for your pull request to be merged, the merge itself must meet the following guidelines:
