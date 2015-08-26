@@ -25,6 +25,7 @@ In order for your pull request to be merged, the merge itself must meet the foll
 - Your merge may not drop the project's test coverage below 85%.
 - Your merge may not drop the project's test coverage by MORE than 5%.
 - Your merge must pass Tracis-CI build tests for BOTH PHP 5.6.X and PHP 7.X.
+- You must make your pull request INTO the dev branch, and it is suggested that you work off of the dev branch.
 
 ## Coding Requirements
 
