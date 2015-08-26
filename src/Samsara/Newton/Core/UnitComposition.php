@@ -12,6 +12,7 @@ use Samsara\Newton\Units\Frequency;
 use Samsara\Newton\Units\Length;
 use Samsara\Newton\Units\Area;
 use Samsara\Newton\Units\Mass;
+use Samsara\Newton\Units\Momentum;
 use Samsara\Newton\Units\Power;
 use Samsara\Newton\Units\Pressure;
 use Samsara\Newton\Units\Temperature;
@@ -258,6 +259,9 @@ class UnitComposition
 
             case self::MASS:
                 return new Mass($value, $this);
+
+            case self::MOMENTUM:
+                return new Momentum($value, $this);
 
             case self::POWER:
                 return new Power($value, $this);

@@ -109,6 +109,11 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(
+            'Samsara\\Newton\\Units\\Momentum',
+            $unit->getUnitClass('Momentum')
+        );
+
+        $this->assertInstanceOf(
             'Samsara\\Newton\\Units\\Power',
             $unit->getUnitClass('Power')
         );
@@ -204,6 +209,12 @@ class UnitCompositionTest extends \PHPUnit_Framework_TestCase
             '1',
             $acceleration->getValue()
         );
+
+        $this->setExpectedException('Exception', 'Cannot divide by zero.');
+
+        $mass->preConvertedSubtract(1000);
+
+        $unit->naiveDivide($thrust, $mass);
     }
 
     public function testGetUnitCompNameException()
