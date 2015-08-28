@@ -20,7 +20,7 @@ Or include it in your `composer.json` file:
 }
 ```
 
-The project namespace is `Samsara\Newton\*`. You can view th eproject on [Packagist](https://packagist.org/packages/samsara/newton).
+The project namespace is `Samsara\Newton\*`. You can view the project on [Packagist](https://packagist.org/packages/samsara/newton).
 
 ## Usage
 
