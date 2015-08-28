@@ -17,10 +17,32 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.2.0] - 2015-08-27
 ### Added
 - Units can now calculate square roots.
+- Instrumentation
+  - Travis-CI
+  - Coveralls
+- CONTRIBUTING.md file with Contribution Guidelines
+- COPYRIGHT file
+- LICENSE file
+- "Extending" section to README.md
+- "Contributing" section to README.md
+- Unit tests
+- **New Dependency (Dev):** PHPUnit
+- Quantity::preConvertedMultiply and Quantity::preConvertedDivide
+- **New Units:**:
+  - Cycles
+  - Frequency
+  - Momentum
+  - Temperature
+- A naiveMultiOpt method for intelligently calculating the result of multiple multiplies and divides at once.
 
 ### Changed
 - PhysicsProvider methods now represent equations instead of results, and the result they return depends on the inputs you provide.
-- Various bug fixes and typos.
+- Renamed Project: PHPhysics => Newton
+- Fixed places where native math operations were being used instead of MathProvider.
+- Abstracted unit comp array comparison so that code can be reused in more places.
+- Bug where unit comp arrays might match the wrong unit due to ordering of the array.
+- Fixed condition where units might get set to non-numeric values, or get their unit changed permanently inside of a math operation.
+- Fixed divide by zero problem in MathProvider
 
 ## [0.1.2] - 2015-08-24
 ### Changed
