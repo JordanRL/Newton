@@ -2,11 +2,13 @@
 
 namespace Samsara\Newton\Provider;
 
+use Samsara\Newton\Core\UnitComposition;
 use Samsara\Newton\Units\Acceleration;
 use Samsara\Newton\Units\Energy;
 use Samsara\Newton\Units\Force;
 use Samsara\Newton\Units\Mass;
 use Samsara\Newton\Units\Momentum;
+use Samsara\Newton\Units\PhysicsConstants\Gravitation;
 use Samsara\Newton\Units\Time;
 use Samsara\Newton\Units\Length;
 use Samsara\Newton\Units\Velocity;
@@ -256,6 +258,56 @@ class PhysicsProvider
         } else {
             /** @return Mass */
             return $vals['momentum']->divideBy($vals['velocity']);
+        }
+    }
+
+    /**
+     * Universal Gravitation Equation:
+     *
+     * A = (G m1 m2)/ r^2
+     *
+     * @param   Mass[]|Acceleration[]|Length[]  ...$quantities
+     * @return  Mass|Acceleration|Length
+     * @throws  \Exception
+     */
+    public static function universalGravitation(...$quantities)
+    {
+        if (count($quantities) != 3) {
+            throw new \Exception('The Universal Gravitation Equation requires at least three given units to calculate something.');
+        }
+
+        $vals = [];
+
+        foreach ($quantities as $unit) {
+            if ($unit instanceof Mass) {
+                /** @var Mass */
+                $vals['mass'][] = $unit;
+            } elseif ($unit instanceof Length) {
+                /** @var Length */
+                $vals['length'] = $unit;
+            } elseif ($unit instanceof Acceleration) {
+                /** @var Acceleration */
+                $vals['acceleration'] = $unit;
+            } else {
+                throw new \Exception('Only Mass, Acceleration and Length valid units for the Universal Gravitation Equation.');
+            }
+        }
+
+        $gravitation = new Gravitation();
+
+        $unitComposition = new UnitComposition();
+
+        if (array_key_exists('mass', $vals) && count($vals['mass']) == 2) {
+            if (array_key_exists('length', $vals)) {
+                /** @return Acceleration */
+                return $unitComposition->naiveMultiOpt([$gravitation, $vals['mass'][0], $vals['mass'][1]], [$vals['length'], $vals['length']]);
+            } else {
+                /** @return Length */
+                return $gravitation->squareRoot([$vals['mass'][0], $vals['mass'][1]], [$vals['acceleration']]);
+            }
+        } else {
+            /** @return Mass */
+            return $unitComposition->naiveMultiOpt([$vals['acceleration'], $vals['length'], $vals['length']], [$gravitation, $vals['mass'][0]]);
         }
     }
 

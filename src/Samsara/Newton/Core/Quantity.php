@@ -65,6 +65,13 @@ abstract class Quantity
         return $this;
     }
 
+    protected function defineComposition(array $comp)
+    {
+        $this->unitTypesPresent = $comp;
+
+        return $this;
+    }
+
     public function convert($value, $from, $to)
     {
         return MathProvider::divide(MathProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
