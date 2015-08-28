@@ -28,7 +28,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Unit tests
 - **New Dependency (Dev):** PHPUnit
 - Quantity::preConvertedMultiply and Quantity::preConvertedDivide
-- **New Units:**:
+- **New Units:**
   - Cycles
   - Frequency
   - Momentum
@@ -52,7 +52,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - README explaining usage and installation
 
-## [0.1.0] - 2015-08-24
+## 0.1.0 - 2015-08-24
 ### Added
 - Initial commit with Units, UnitComposition, Quantity, etc.
 
