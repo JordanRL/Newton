@@ -3,8 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - [unreleased]
+
+
+## [1.0.0] - 2015-10-09
 ### Added
 - CHANGELOG.md (this file)
+
+### Changed
+- Added DocBlocks and comments for all public methods
+- Examined the visibility of methods and properties in each class
 
 ## [0.3.0] - 2015-08-28
 ### Added
@@ -56,7 +63,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial commit with Units, UnitComposition, Quantity, etc.
 
-[unreleased]: https://github.com/JordanRL/Newton/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/JordanRL/Newton/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/JordanRL/Newton/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/JordanRL/Newton/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/JordanRL/Newton/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/JordanRL/Newton/compare/v0.1.1...v0.1.2
