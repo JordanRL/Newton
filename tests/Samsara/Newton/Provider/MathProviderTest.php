@@ -53,7 +53,7 @@ class MathProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '1000000000000000000000000000000',
-            MathProvider::divide('5000000000000000000000000000000', '5')
+            MathProvider::divide('5000000000000000000000000000000', '5', 0)
         );
     }
 
