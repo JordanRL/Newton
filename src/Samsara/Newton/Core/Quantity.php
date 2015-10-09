@@ -9,24 +9,56 @@ use Samsara\Newton\Provider\MathProvider;
  */
 abstract class Quantity
 {
+    /**
+     * An array that correlates the different units (in string form) to their index in the rates array. This allows for
+     * multiple string representations to point to the same conversion rate without having to enter duplicate conversion
+     * rates.
+     *
+     * $units['m/s'] => 0
+     * $units['km/h'] => 1
+     * $units['km/hr'] => 1
+     *
+     * $rates[0] => 1
+     * $rates[1] => 3.6
+     *
+     * @var array
+     */
     protected $units = [];
+
+    /**
+     * An array which explains the conversion rate from the native unit to the desired unit (by multiplication).
+     *
+     * m/s => km/s == 1 => 1000
+     * km/s => km/h == 1000 => 3.6
+     *
+     * @var array
+     */
     protected $rates = [];
 
     /**
-     * @var mixed current value
-     */
-    protected $value;
-
-    /**
-     * @var string unit name
-     */
-    protected $unit;
-
-    /**
-     * @var string native unit name
+     * The native unit (in string form) that all multiplication or division should take place in. For instance, the
+     * native unit of length is 'm' for meters; the native unit of mass is 'kg' for kilogram.
+     *
+     * @var string
      * Override this in each quantity subclass.
      */
     protected $native;
+
+    /**
+     * The current numerical value of the unit in string form. It's important that numbers are operated on as strings,
+     * because with the scale differences of the various units it is extremely likely that the maximum integer size
+     * for PHP might be exceeded, and data loss might occur.
+     *
+     * @var string
+     */
+    private $value;
+
+    /**
+     * The current unit which the value is in.
+     *
+     * @var string
+     */
+    private $unit;
 
     /**
      * This keeps track of what base units the current unit is composed of. This allows the UnitComposition class
@@ -34,15 +66,18 @@ abstract class Quantity
      *
      * @var array
      */
-    protected $unitTypesPresent = [];
+    private $unitTypesPresent = [];
 
     /**
+     * The instance of UnitComposition which should be used when determining the unit types present in different units
+     * and from which multiplication, division, and similar operations should take place.
+     *
      * @var UnitComposition
      */
-    protected $unitCompClass;
+    private $unitCompClass;
 
     /**
-     * @param float             $value
+     * @param float|int|string  $value
      * @param UnitComposition   $unitComposition
      * @param string            $unit
      */
@@ -53,30 +88,16 @@ abstract class Quantity
         } else {
             $this->unit = $unit;
         }
-        $this->value = $value;
+        $this->value = (string)$value;
 
         $this->unitCompClass = $unitComposition;
     }
 
-    protected function setComposition($key)
-    {
-        $this->unitTypesPresent = $this->unitCompClass->unitComp[$key];
-
-        return $this;
-    }
-
-    protected function defineComposition(array $comp)
-    {
-        $this->unitTypesPresent = $comp;
-
-        return $this;
-    }
-
-    public function convert($value, $from, $to)
-    {
-        return MathProvider::divide(MathProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
-    }
-
+    /**
+     * Converts the value of the current unit to its native units.
+     *
+     * @return $this
+     */
     public function toNative()
     {
         if ($this->unit == $this->native) {
@@ -86,6 +107,13 @@ abstract class Quantity
         return $this->to($this->native);
     }
 
+    /**
+     * Convert this object to another unit of measuring the same thing. For instance, meters -> feet. The value passed
+     * to the to() method should be the string form of the unit (which is normally abbreviated, not spelled).
+     *
+     * @param   string $unit
+     * @return  $this
+     */
     public function to($unit)
     {
         $this->value = $this->convert($this->value, $this->unit, $unit);
@@ -94,6 +122,13 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Get's the conversion rate (by multiplication) between the argument unit and the native unit.
+     *
+     * @param   string $unit
+     * @return  string
+     * @throws  \Exception
+     */
     public function getConversionRate($unit)
     {
         if (!array_key_exists($unit, $this->units)) {
@@ -107,6 +142,17 @@ abstract class Quantity
         return $this->rates[$this->units[$unit]];
     }
 
+    /**
+     * Adds another string which can be used to reference the conversion rate of an existing unit. For instance, you
+     * could add the verbose form 'meters' instead of just 'm' with the following:
+     *
+     * addAlias('meters', 'm')
+     *
+     * @param   string $alias
+     * @param   string $unit
+     * @return  $this
+     * @throws  \Exception
+     */
     public function addAlias($alias, $unit)
     {
         if (array_key_exists($alias, $this->units)) {
@@ -123,11 +169,13 @@ abstract class Quantity
     }
 
     /**
-     * @param string $alias The string by which you will reference this unit. Must be unique.
-     * @param string|int|float $nativeConversion The number to multiply the native unit by to get the new unit.
+     * Add a brand new conversion rate to this object, including the string alias it will be referenced by.
      *
-     * @return $this
-     * @throws \Exception
+     * @param   string              $alias              The string by which you will reference this unit. Must be unique.
+     * @param   string|int|float    $nativeConversion   The number to multiply the native unit by to get the new unit.
+     *
+     * @return  $this
+     * @throws  \Exception
      */
     public function addUnit($alias, $nativeConversion)
     {
@@ -142,21 +190,42 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Returns the current numerical value.
+     *
+     * @return string|int|float
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * Returns the current unit (in string form).
+     *
+     * @return string
+     */
     public function getUnit()
     {
         return $this->unit;
     }
 
+    /**
+     * Returns the array of the current unit types that exist in this unit object.
+     *
+     * @return array
+     */
     public function getUnitsPresent()
     {
         return $this->unitTypesPresent;
     }
 
+    /**
+     * Add a number to the value without consideration to conversion or units.
+     *
+     * @param   string|int|float $value
+     * @return  $this
+     */
     public function preConvertedAdd($value)
     {
         $this->value = MathProvider::add($this->value, $value);
@@ -164,6 +233,12 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Subtract a number to the value without consideration to conversion or units.
+     *
+     * @param   string|int|float $value
+     * @return  $this
+     */
     public function preConvertedSubtract($value)
     {
         $this->value = MathProvider::subtract($this->value, $value);
@@ -171,6 +246,12 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Multiply a number by the value without consideration to conversion or units.
+     *
+     * @param   string|int|float $value
+     * @return  $this
+     */
     public function preConvertedMultiply($value)
     {
         $this->value = MathProvider::multiply($this->value, $value);
@@ -178,6 +259,13 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Divide a number by the value without consideration to conversion or units.
+     *
+     * @param   string|int|float $value
+     * @param   int $precision
+     * @return  $this
+     */
     public function preConvertedDivide($value, $precision = 2)
     {
         $this->value = MathProvider::divide($this->value, $value, $precision);
@@ -185,6 +273,13 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Take an instance of the same unit object, convert it to the units that this unit is in, and add it to this unit.
+     *
+     * @param   Quantity $quantity
+     * @return  $this
+     * @throws  \Exception
+     */
     public function add(Quantity $quantity)
     {
         if (get_class($this) != get_class($quantity)) {
@@ -200,6 +295,14 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Take an instance of the same unit object, convert it to the units that this unit is in, and subtract it
+     * from this unit.
+     *
+     * @param   Quantity $quantity
+     * @return  $this
+     * @throws  \Exception
+     */
     public function subtract(Quantity $quantity)
     {
         if (get_class($this) != get_class($quantity)) {
@@ -215,27 +318,73 @@ abstract class Quantity
         return $this;
     }
 
+    /**
+     * Take an instance of any unit and attempt to multiply. This will pass responsibility to the UnitComposition class
+     * so that it can attempt to figure out what the resulting units should be.
+     *
+     * @param   Quantity $quantity
+     * @return  Quantity
+     */
     public function multiplyBy(Quantity $quantity)
     {
         return $this->unitCompClass->naiveMultiply($this, $quantity);
     }
 
+    /**
+     * Take an instance of any unit and attempt to multiply by that unit after squaring it. This will pass
+     * responsibility to the UnitComposition class so that it can attempt to figure out what the resulting
+     * units should be.
+     *
+     * @param   Quantity $quantity
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function multiplyBySquared(Quantity $quantity)
     {
         return $this->unitCompClass->naiveMultiOpt([$this, $quantity, $quantity], []);
     }
 
+    /**
+     * Take an instance of any unit and attempt to divide. This will pass responsibility to the UnitComposition class
+     * so that it can attempt to figure out what the resulting units should be.
+     *
+     * @param   Quantity $quantity
+     * @param   int $precision
+     * @return  Quantity
+     */
     public function divideBy(Quantity $quantity, $precision = 2)
     {
         return $this->unitCompClass->naiveDivide($this, $quantity, $precision);
     }
 
+    /**
+     * Take an instance of any unit and attempt to divide by that unit after squaring it. This will pass
+     * responsibility to the UnitComposition class so that it can attempt to figure out what the resulting
+     * units should be.
+     *
+     * @param   Quantity $quantity
+     * @param   int $precision
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function divideBySquared(Quantity $quantity, $precision = 2)
     {
         return $this->unitCompClass->naiveMultiOpt([$this], [$quantity, $quantity], $precision);
     }
 
-    public function squareRoot(array $numerators, array $denominators, $precision = 2)
+    /**
+     * Attempts to take the square root of this unit. In practice it is very rare for a unit that has a common purpose
+     * or name on its own to be rooted. Instead it is more common for the square root to occur after a series of
+     * multiplication and division, so you may provide numerators and denominators to this method as well which will
+     * occur BEFORE the square root is taken.
+     *
+     * @param   Quantity[] $numerators
+     * @param   Quantity[] $denominators
+     * @param   int $precision
+     * @return  Quantity
+     * @throws  \Exception
+     */
+    public function squareRoot(array $numerators = [], array $denominators = [], $precision = 2)
     {
         $numerators[] = $this;
 
@@ -243,10 +392,52 @@ abstract class Quantity
     }
 
     /**
+     * Return the current value and unit.
+     *
      * @return string
      */
     public function __toString()
     {
         return $this->value.' '.$this->unit;
+    }
+
+    /**
+     *
+     *
+     * @param   string|int|float $value
+     * @param   string $from
+     * @param   string $to
+     * @return  string
+     * @throws  \Exception
+     */
+    protected function convert($value, $from, $to)
+    {
+        return MathProvider::divide(MathProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
+    }
+
+    /**
+     *
+     *
+     * @param   string $key
+     * @return  $this
+     */
+    protected function setComposition($key)
+    {
+        $this->unitTypesPresent = $this->unitCompClass->unitComp[$key];
+
+        return $this;
+    }
+
+    /**
+     *
+     *
+     * @param   array $comp
+     * @return  $this
+     */
+    protected function defineComposition(array $comp)
+    {
+        $this->unitTypesPresent = $comp;
+
+        return $this;
     }
 }
