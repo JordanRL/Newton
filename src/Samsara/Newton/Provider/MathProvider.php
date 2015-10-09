@@ -7,17 +7,28 @@ use RandomLib\Factory;
 class MathProvider
 {
 
+    /**
+     * @param   string|int|float $x
+     * @param   string|int|float $y
+     * @return  string
+     */
     public static function add($x, $y)
     {
         return bcadd($x, $y);
     }
 
+    /**
+     * @param   string|int|float $x
+     * @param   string|int|float $y
+     * @return  string
+     */
     public static function multiply($x, $y)
     {
         return bcmul($x, $y);
     }
 
     /**
+     * @param   string[]|int[]|float[] ...$nums
      * @return string
      */
     public static function multipleMultiply(...$nums)
@@ -31,7 +42,14 @@ class MathProvider
         return $total;
     }
 
-    public static function divide($numerator, $denominator, $precision = null)
+    /**
+     * @param string|int|float $numerator
+     * @param string|int|float $denominator
+     * @param int $precision
+     * @return string
+     * @throws \Exception
+     */
+    public static function divide($numerator, $denominator, $precision = 2)
     {
         if ($denominator == 0) {
             throw new \Exception('Cannot divide by zero.');
@@ -40,16 +58,31 @@ class MathProvider
         return bcdiv($numerator, $denominator, $precision);
     }
 
+    /**
+     * @param string|int|float $left
+     * @param string|int|float $right
+     * @return string
+     */
     public static function subtract($left, $right)
     {
         return bcsub($left, $right);
     }
 
+    /**
+     * @param string|int|float $base
+     * @param string|int|float $exp
+     * @return string
+     */
     public static function exp($base, $exp)
     {
         return bcpow($base, $exp);
     }
 
+    /**
+     * @param string|int|float $num
+     * @param int $scale
+     * @return string
+     */
     public static function squareRoot($num, $scale = 2)
     {
         return bcsqrt($num, $scale);

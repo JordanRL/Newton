@@ -45,6 +45,22 @@ class UnitComposition
     const VOLTAGE       = 'Voltage';
     const VOLUME        = 'Volume';
 
+    /**
+     * This array describes the composition in base units of measure each of the classes which come by default with
+     * this library. All other types of units can be composed from:
+     *
+     * Length
+     * Time
+     * Mass
+     * Electric Current
+     *
+     * For simplicity, this library also includes the following as base composition units:
+     *
+     * Temperature
+     * Cycles
+     *
+     * @var array
+     */
     public $unitComp = [
         self::ACCELERATION => [
             'length' => 1,
@@ -123,8 +139,18 @@ class UnitComposition
         ]
     ];
 
+    /**
+     * This is where units that are added at runtime have their classname stored so that can be instantiated correctly.
+     *
+     * @var array
+     */
     public $dynamicUnits = [];
 
+    /**
+     * The acceptable base composition types.
+     *
+     * @var array
+     */
     private $baseUnitTypes = [
         'length',
         'mass',
@@ -144,6 +170,8 @@ class UnitComposition
     }
 
     /**
+     * Add a brand new unit with class an composition.
+     *
      * @param string    $class
      * @param array     $composition
      * @param string    $key
@@ -163,8 +191,11 @@ class UnitComposition
     }
 
     /**
+     * Returns the class for the set of numerators and denominators.
+     *
      * @param Quantity[] $numerators
      * @param Quantity[] $denominators
+     * @return Quantity
      */
     public function getMultiUnits(array $numerators, array $denominators)
     {
@@ -173,6 +204,13 @@ class UnitComposition
         return $this->getUnitCompClass($unitComp);
     }
 
+    /**
+     * Returns the multiplied and divided unit composition ONLY for a set of numerators and denominators.
+     *
+     * @param   Quantity[] $numerators
+     * @param   Quantity[] $denominators
+     * @return  array
+     */
     public function getUnitCompArray(array $numerators, array $denominators)
     {
         $unitComp = [];
@@ -208,21 +246,49 @@ class UnitComposition
         return $unitComp;
     }
 
+    /**
+     * Gets the unit class for two units which are multiplied.
+     *
+     * @param   Quantity $unit1
+     * @param   Quantity $unit2
+     * @return  Quantity
+     */
     public function getMultipliedUnit(Quantity $unit1, Quantity $unit2)
     {
         return $this->getMultiUnits([$unit1, $unit2], []);
     }
 
+    /**
+     * Gets the unit class for two units which are divided.
+     *
+     * @param   Quantity $numerator
+     * @param   Quantity $denominator
+     * @return  Quantity
+     */
     public function getDividedUnit(Quantity $numerator, Quantity $denominator)
     {
         return $this->getMultiUnits([$numerator], [$denominator]);
     }
 
+    /**
+     * Gets the unit class from the composition array.
+     *
+     * @param   array $comp
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function getUnitCompClass(array $comp)
     {
         return $this->getUnitClass($this->getUnitCompName($comp));
     }
 
+    /**
+     * Gets the unit name from the composition array.
+     *
+     * @param   array $comp
+     * @return  string
+     * @throws  \Exception
+     */
     public function getUnitCompName(array $comp)
     {
         foreach ($this->unitComp as $unit => $unitDef) {
@@ -235,6 +301,14 @@ class UnitComposition
         throw new \Exception('Cannot match the unit definition to an existing unit.');
     }
 
+    /**
+     * Gets the unit class from the unit name.
+     *
+     * @param   string $unit
+     * @param   int $value
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function getUnitClass($unit, $value = 0)
     {
         switch ($unit) {
@@ -311,17 +385,38 @@ class UnitComposition
         }
     }
 
+    /**
+     * Alias for naiveMultiOpt where both arguments are multiplied
+     *
+     * @param   Quantity $unit1
+     * @param   Quantity $unit2
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function naiveMultiply(Quantity $unit1, Quantity $unit2)
     {
         return $this->naiveMultiOpt([$unit1, $unit2], []);
     }
 
+    /**
+     * Alias for naiveMultiOpt where the first argument is divided by the second argument.
+     *
+     * @param   Quantity $numerator
+     * @param   Quantity $denominator
+     * @param   int $precision
+     * @return  Quantity
+     * @throws  \Exception
+     */
     public function naiveDivide(Quantity $numerator, Quantity $denominator, $precision = 2)
     {
         return $this->naiveMultiOpt([$numerator], [$denominator], $precision);
     }
 
     /**
+     * Takes an arbitrary number of unit objects which are to be multiplied and divided and attempts to determine both
+     * the numerical answer, as well as what unit the answer is in, then returns an instance of the appropriate class
+     * with the appropriate value.
+     *
      * @param Quantity[] $numerators
      * @param Quantity[] $denominators
      * @param int        $precision
@@ -365,12 +460,15 @@ class UnitComposition
     }
 
     /**
-     * @param array $numerators
-     * @param array $denominators
-     * @param int        $precision
+     * Attempts to take the square root of a set of numerators and denominators, determining both the value and unit
+     * composition, and returning the correct unit object with the correct value.
      *
-     * @return Quantity
-     * @throws \Exception
+     * @param   Quantity[]|int[] $numerators
+     * @param   Quantity[]|int[] $denominators
+     * @param   int        $precision
+     *
+     * @return  Quantity
+     * @throws  \Exception
      */
     public function naiveSquareRoot(array $numerators, array $denominators, $precision = 2)
     {

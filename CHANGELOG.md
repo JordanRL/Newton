@@ -26,7 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - "Extending" section to README.md
 - "Contributing" section to README.md
 - Unit tests
-- **New Dependency (Dev):** PHPUnit
+- **New Dependency (Dev):** PHPUnit 4.8.*
 - Quantity::preConvertedMultiply and Quantity::preConvertedDivide
 - **New Units:**
   - Cycles
