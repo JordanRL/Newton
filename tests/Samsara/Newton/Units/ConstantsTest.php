@@ -38,4 +38,37 @@ class ConstantsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPlank()
+    {
+        $planck = new Planck();
+
+        $this->assertInstanceOf(
+            'Samsara\\Newton\\Units\\PhysicsConstants\\Planck',
+            $planck
+        );
+
+        $this->assertEquals(
+            '0.000000000000000000000000000000000662606957',
+            $planck->getValue()
+        );
+
+        $planck->preConvertedAdd(1);
+        $planck->preConvertedMultiply(2);
+        $planck->preConvertedDivide(10);
+        $planck->preConvertedSubtract(1);
+        $planck->add($planck);
+        $planck->add($planck);
+        $planck->subtract($planck);
+
+        $this->assertEquals(
+            '0.000000000000000000000000000000000662606957',
+            $planck->getValue()
+        );
+
+        $this->assertEquals(
+            'm^2 kg/s',
+            $planck->getUnit()
+        );
+    }
+
 }
