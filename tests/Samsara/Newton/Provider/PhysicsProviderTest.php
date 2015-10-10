@@ -37,6 +37,43 @@ class PhysicsProviderTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testConstantAccelTooFewArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::constantAccelCalcs(0);
+
+    }
+
+    public function testConstantAccelTooManyArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::constantAccelCalcs(0, 1, 2);
+
+    }
+
+    public function testConstantAccelInvalidArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::constantAccelCalcs(0, 1);
+
+    }
+
+    public function testConstantAccelOneOfEach()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        $unit = new UnitComposition();
+
+        $length = $unit->getUnitClass(UnitComposition::LENGTH);
+        $length->preConvertedAdd(1);
+
+        PhysicsProvider::constantAccelCalcs($length, $length);
+
+    }
+
     public function testNewtonsSecondLaw()
     {
 
@@ -64,6 +101,43 @@ class PhysicsProviderTest extends \PHPUnit_Framework_TestCase
             'Samsara\\Newton\\Units\\Acceleration',
             PhysicsProvider::forceMassAccelCalcs($force, $mass)
         );
+
+    }
+
+    public function testNewtonsSecondLawTooFewArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::forceMassAccelCalcs(0);
+
+    }
+
+    public function testNewtonsSecondLawTooManyArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::forceMassAccelCalcs(0, 1, 2);
+
+    }
+
+    public function testNewtonsSecondLawInvalidArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::forceMassAccelCalcs(0, 1);
+
+    }
+
+    public function testNewtonsSecondLawOneOfEach()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        $unit = new UnitComposition();
+
+        $mass = $unit->getUnitClass(UnitComposition::MASS);
+        $mass->preConvertedAdd(1);
+
+        PhysicsProvider::forceMassAccelCalcs($mass, $mass);
 
     }
 
@@ -97,6 +171,43 @@ class PhysicsProviderTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testKineticEnergyTooFewArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::kineticEnergyCalcs(0);
+
+    }
+
+    public function testKineticEnergyTooManyArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::kineticEnergyCalcs(0, 1, 2);
+
+    }
+
+    public function testKineticEnergyInvalidArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::kineticEnergyCalcs(0, 1);
+
+    }
+
+    public function testKineticEnergyOneOfEach()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        $unit = new UnitComposition();
+
+        $mass = $unit->getUnitClass(UnitComposition::MASS);
+        $mass->preConvertedAdd(1);
+
+        PhysicsProvider::kineticEnergyCalcs($mass, $mass);
+
+    }
+
     public function testMomentum()
     {
 
@@ -124,6 +235,43 @@ class PhysicsProviderTest extends \PHPUnit_Framework_TestCase
             'Samsara\\Newton\\Units\\Velocity',
             PhysicsProvider::momentumCalcs($momentum, $mass)
         );
+
+    }
+
+    public function testMomentumTooFewArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::momentumCalcs(0);
+
+    }
+
+    public function testMomentumTooManyArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::momentumCalcs(0, 1, 2);
+
+    }
+
+    public function testMomentumInvalidArguments()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        PhysicsProvider::momentumCalcs(0, 1);
+
+    }
+
+    public function testMomentumOneOfEach()
+    {
+
+        $this->setExpectedException('InvalidArgumentException');
+        $unit = new UnitComposition();
+
+        $mass = $unit->getUnitClass(UnitComposition::MASS);
+        $mass->preConvertedAdd(1);
+
+        PhysicsProvider::momentumCalcs($mass, $mass);
 
     }
 

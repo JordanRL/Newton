@@ -38,12 +38,12 @@ class PhysicsProvider
      *
      * @param   Length[]|Time[]|Acceleration[]  ...$quantities
      * @return  Length|Time|Acceleration
-     * @throws  \Exception
+     * @throws  \InvalidArgumentException
      */
     public static function constantAccelCalcs(...$quantities)
     {
         if (count($quantities) != 2) {
-            throw new \Exception('The Constant Acceleration Equation needs exactly two of: Length, Time, Acceleration.');
+            throw new \InvalidArgumentException('The Constant Acceleration Equation needs exactly two of: Length, Time, Acceleration.');
         }
 
         $vals = [];
@@ -59,12 +59,12 @@ class PhysicsProvider
                 /** @var Time */
                 $vals['time'] = $unit;
             } else {
-                throw new \Exception('Only Length, Time, and Acceleration are valid units for the Constant Acceleration Equation.');
+                throw new \InvalidArgumentException('Only Length, Time, and Acceleration are valid units for the Constant Acceleration Equation.');
             }
         }
 
         if (count($vals) != 2) {
-            throw new \Exception('The Constant Acceleration Equation needs only one of each unit.');
+            throw new \InvalidArgumentException('The Constant Acceleration Equation needs only one of each unit.');
         }
 
         if (array_key_exists('acceleration', $vals) && array_key_exists('time', $vals)) {
@@ -100,12 +100,12 @@ class PhysicsProvider
      *
      * @param   Mass[]|Force[]|Acceleration[]   ...$quantities
      * @return  Mass|Force|Acceleration
-     * @throws  \Exception
+     * @throws  \InvalidArgumentException
      */
     public static function forceMassAccelCalcs(...$quantities)
     {
         if (count($quantities) != 2) {
-            throw new \Exception('The Thrust-Mass Equation needs exactly two of: Force, Mass, Acceleration.');
+            throw new \InvalidArgumentException('The Thrust-Mass Equation needs exactly two of: Force, Mass, Acceleration.');
         }
 
         $vals = [];
@@ -121,12 +121,12 @@ class PhysicsProvider
                 /** @var Acceleration */
                 $vals['acceleration'] = $unit;
             } else {
-                throw new \Exception('Only Mass, Force, and Acceleration are valid units for the Thrust-Mass Equation.');
+                throw new \InvalidArgumentException('Only Mass, Force, and Acceleration are valid units for the Thrust-Mass Equation.');
             }
         }
 
         if (count($vals) != 2) {
-            throw new \Exception('The Thrust-Mass Equation needs only one of each unit.');
+            throw new \InvalidArgumentException('The Thrust-Mass Equation needs only one of each unit.');
         }
 
         if (array_key_exists('mass', $vals) && array_key_exists('force', $vals)) {
@@ -160,12 +160,12 @@ class PhysicsProvider
      *
      * @param   Energy[]|Velocity[]|Mass[]  ...$quantities
      * @return  Energy|Velocity|Mass
-     * @throws  \Exception
+     * @throws  \InvalidArgumentException
      */
     public static function kineticEnergyCalcs(...$quantities)
     {
         if (count($quantities) != 2) {
-            throw new \Exception('The Kinetic Energy Equation needs exactly two of: Mass, Velocity, Energy.');
+            throw new \InvalidArgumentException('The Kinetic Energy Equation needs exactly two of: Mass, Velocity, Energy.');
         }
 
         $vals = [];
@@ -181,12 +181,12 @@ class PhysicsProvider
                 /** @var Mass */
                 $vals['energy'] = $unit;
             } else {
-                throw new \Exception('Only Mass, Velocity, and Energy are valid units for the Kinetic Energy Equation.');
+                throw new \InvalidArgumentException('Only Mass, Velocity, and Energy are valid units for the Kinetic Energy Equation.');
             }
         }
 
         if (count($vals) != 2) {
-            throw new \Exception('The Kinetic Energy Equation needs only one of each unit.');
+            throw new \InvalidArgumentException('The Kinetic Energy Equation needs only one of each unit.');
         }
 
         if (array_key_exists('mass', $vals) && array_key_exists('velocity', $vals)) {
@@ -220,12 +220,12 @@ class PhysicsProvider
      *
      * @param   Momentum[]|Velocity[]|Mass[]  ...$quantities
      * @return  Momentum|Velocity|Mass
-     * @throws  \Exception
+     * @throws  \InvalidArgumentException
      */
     public static function momentumCalcs(...$quantities)
     {
         if (count($quantities) != 2) {
-            throw new \Exception('The Momentum Equation needs exactly two of: Mass, Velocity, Momentum.');
+            throw new \InvalidArgumentException('The Momentum Equation needs exactly two of: Mass, Velocity, Momentum.');
         }
 
         $vals = [];
@@ -241,12 +241,12 @@ class PhysicsProvider
                 /** @var Momentum */
                 $vals['momentum'] = $unit;
             } else {
-                throw new \Exception('Only Mass, Velocity, and Momentum are valid units for the Momentum Equation.');
+                throw new \InvalidArgumentException('Only Mass, Velocity, and Momentum are valid units for the Momentum Equation.');
             }
         }
 
         if (count($vals) != 2) {
-            throw new \Exception('The Momentum Equation needs only one of each unit.');
+            throw new \InvalidArgumentException('The Momentum Equation needs only one of each unit.');
         }
 
         if (array_key_exists('mass', $vals) && array_key_exists('velocity', $vals)) {
@@ -268,12 +268,12 @@ class PhysicsProvider
      *
      * @param   Mass[]|Acceleration[]|Length[]  ...$quantities
      * @return  Mass|Acceleration|Length
-     * @throws  \Exception
+     * @throws  \InvalidArgumentException
      */
     public static function universalGravitation(...$quantities)
     {
         if (count($quantities) != 3) {
-            throw new \Exception('The Universal Gravitation Equation requires at least three given units to calculate something.');
+            throw new \InvalidArgumentException('The Universal Gravitation Equation requires at least three given units to calculate something.');
         }
 
         $vals = [];
@@ -289,7 +289,7 @@ class PhysicsProvider
                 /** @var Acceleration */
                 $vals['acceleration'] = $unit;
             } else {
-                throw new \Exception('Only Mass, Acceleration and Length valid units for the Universal Gravitation Equation.');
+                throw new \InvalidArgumentException('Only Mass, Acceleration and Length valid units for the Universal Gravitation Equation.');
             }
         }
 
