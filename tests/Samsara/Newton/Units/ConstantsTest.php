@@ -38,7 +38,7 @@ class ConstantsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPlank()
+    public function testPlanck()
     {
         $planck = new Planck();
 
