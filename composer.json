@@ -2,7 +2,7 @@
   "name": "samsara/newton",
   "type": "library",
   "description": "A library providing physics units which are fully aware of each other, and which can have math operations performed on them.",
-  "keywords": ["physics", "units", "unit", "conversion", "math"],
+  "keywords": ["physics", "units", "unit", "conversion", "math", "vectors"],
   "license": "GPL-2.0",
   "require": {
     "php": ">=5.6.0",
