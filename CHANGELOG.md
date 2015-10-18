@@ -6,9 +6,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Unit test for Planck constant
 - Unit tests for exceptions in PhysicsProvider
+- **Dependency:** 
+  - samsara/fermat: dev-dev
+- ScalarQuantity (extending Quantity)
+- VectorQuantity (extending Quantity)
+- VectorAcceleration (extending VectorQuantity)
+- VectorForce (extending VectorQuantity)
+- VectorMomentum (extending VectorQuantity)
+- VectorVelocity (extending VectorQuantity)
+- `pecl install stats` to travis config
+- Divide by zero exception in UnitComposition (how did that get removed?)
+
+### Removed
+- MathProvider class
+- MathProvider test
  
 ### Changed
 - `throw new \Exception` to `throw new \InvalidArgumentException` in PhysicsProvider where appropriate
+- All dimensionless physics unit (i.e. Acceleration, Energy, etc.) now extend ScalarQuantity
+- All MathProvider usages (removed) to BCProvider usages (from samsara/fermat)
 
 ### Fixed
 - **Renamed:** Plank.php -> Planck.php (incorrectly named file)
