@@ -381,7 +381,7 @@ class UnitComposition
 
                     $parent = $class->getParentClass();
 
-                    if ($parent && $parent->getName() == 'Samsara\\Newton\\Core\\Quantity') {
+                    if ($parent && ($parent->getName() == 'Samsara\\Newton\\Core\\Quantity' || $parent->getName() == 'Samsara\\Newton\\Units\\Core\\ScalarQuantity')) {
                         return $class->newInstance($value, $this);
                     } else {
                         throw new \Exception('Valid units must extend the Quantity class.');
@@ -450,9 +450,15 @@ class UnitComposition
         foreach ($denominators as $key => $quantity) {
             if ($quantity instanceof Quantity) {
                 $oldUnit = $quantity->getUnit();
+                if ($quantity->getValue() == 0) {
+                    throw new \Exception('Cannot divide by zero.');
+                }
                 $newVal = BCProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
                 $quantity->to($oldUnit);
             } elseif (is_numeric($quantity)) {
+                if ($quantity == 0) {
+                    throw new \Exception('Cannot divide by zero.');
+                }
                 $newVal = BCProvider::divide($newVal, $quantity, $precision);
                 unset($denominators[$key]);
             } else {
