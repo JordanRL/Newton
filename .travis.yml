@@ -5,6 +5,7 @@ php:
 
 install:
     - composer require satooshi/php-coveralls:~0.6@stable
+    - pecl install stats
 
 before_script:
     - mkdir -p build/logs
