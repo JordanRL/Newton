@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Time extends Quantity
+class Time extends ScalarQuantity
 {
     const MILLISECOND   = 'ms';
     const SECOND        = 's';

@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Charge extends Quantity
+class Charge extends ScalarQuantity
 {
     const COULOMB       = 'C';
     const KILOCOULOMB   = 'kC';

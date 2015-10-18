@@ -2,7 +2,7 @@
 
 namespace Samsara\Newton\Core;
 
-use Samsara\Newton\Provider\MathProvider;
+use Samsara\Fermat\Provider\BCProvider;
 
 /**
  * Class Quantity
@@ -91,6 +91,16 @@ abstract class Quantity
         $this->value = (string)$value;
 
         $this->unitCompClass = $unitComposition;
+    }
+
+    /**
+     * Returns the UnitComposition class so that it can be modified or injected.
+     *
+     * @return UnitComposition
+     */
+    public function getUnitCompositionClass()
+    {
+        return $this->unitCompClass;
     }
 
     /**
@@ -228,7 +238,7 @@ abstract class Quantity
      */
     public function preConvertedAdd($value)
     {
-        $this->value = MathProvider::add($this->value, $value);
+        $this->value = BCProvider::add($this->value, $value);
 
         return $this;
     }
@@ -241,7 +251,7 @@ abstract class Quantity
      */
     public function preConvertedSubtract($value)
     {
-        $this->value = MathProvider::subtract($this->value, $value);
+        $this->value = BCProvider::subtract($this->value, $value);
 
         return $this;
     }
@@ -254,7 +264,7 @@ abstract class Quantity
      */
     public function preConvertedMultiply($value)
     {
-        $this->value = MathProvider::multiply($this->value, $value);
+        $this->value = BCProvider::multiply($this->value, $value);
 
         return $this;
     }
@@ -268,7 +278,7 @@ abstract class Quantity
      */
     public function preConvertedDivide($value, $precision = 2)
     {
-        $this->value = MathProvider::divide($this->value, $value, $precision);
+        $this->value = BCProvider::divide($this->value, $value, $precision);
 
         return $this;
     }
@@ -288,7 +298,7 @@ abstract class Quantity
 
         $oldUnit = $quantity->getUnit();
 
-        $this->value = MathProvider::add($quantity->to($this->unit)->getValue(), $this->value);
+        $this->value = BCProvider::add($quantity->to($this->unit)->getValue(), $this->value);
 
         $quantity->to($oldUnit);
 
@@ -311,7 +321,7 @@ abstract class Quantity
 
         $oldUnit = $quantity->getUnit();
 
-        $this->value = MathProvider::subtract($this->value, $quantity->to($this->unit)->getValue());
+        $this->value = BCProvider::subtract($this->value, $quantity->to($this->unit)->getValue());
 
         $quantity->to($oldUnit);
 
@@ -412,7 +422,7 @@ abstract class Quantity
      */
     protected function convert($value, $from, $to)
     {
-        return MathProvider::divide(MathProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
+        return BCProvider::divide(BCProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
     }
 
     /**

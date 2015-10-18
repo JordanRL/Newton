@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Velocity extends Quantity
+class Velocity extends ScalarQuantity
 {
     const METERS_PER_SECOND         = 'm/s';
     const KILOMETERS_PER_SECOND     = 'km/s';

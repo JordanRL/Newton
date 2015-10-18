@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Power extends Quantity
+class Power extends ScalarQuantity
 {
     const WATT          = 'W';
     const KILOWATT      = 'kW';

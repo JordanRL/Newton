@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Length extends Quantity
+class Length extends ScalarQuantity
 {
     // Metric system
     const MILLIMETER        = 'mm';

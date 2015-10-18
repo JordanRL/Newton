@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Voltage extends Quantity
+class Voltage extends ScalarQuantity
 {
     const VOLTS         = 'V';
     const KILOVOLTS     = 'kV';

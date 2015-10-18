@@ -2,7 +2,7 @@
 
 namespace Samsara\Newton\Core;
 
-use Samsara\Newton\Provider\MathProvider;
+use Samsara\Newton\Provider\BCProvider;
 
 class SIPrefixes
 {
@@ -86,13 +86,13 @@ class SIPrefixes
         // The number is more than three orders of magnitude from zero
         if ($value >= 1000 || $value <= -1000) {
             // Increase the exponent by three and try again
-            return $this->matchBest(MathProvider::divide($value, 1000), ($pos+1));
+            return $this->matchBest(BCProvider::divide($value, 1000), ($pos+1));
         }
 
         // The number is a decimal less than one from zero
         if ($value < 1 && $value > -1 && $value != 0) {
             // Decrease the exponent by three and try again
-            return $this->matchBest(MathProvider::multiply($value, 1000), ($pos-1));
+            return $this->matchBest(BCProvider::multiply($value, 1000), ($pos-1));
         }
 
         // If no transformation is needed, we have a special case of the return

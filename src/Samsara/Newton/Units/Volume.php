@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Volume extends Quantity
+class Volume extends ScalarQuantity
 {
 
     const CUBIC_METERS      = 'm^3';

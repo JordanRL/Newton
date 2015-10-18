@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Mass extends Quantity
+class Mass extends ScalarQuantity
 {
     const MICROGRAM     = 'mcg';
     const MILLIGRAM     = 'mg';

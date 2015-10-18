@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
 use Samsara\Newton\Core\UnitComposition;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 
-class Acceleration extends Quantity
+class Acceleration extends ScalarQuantity
 {
     const METERS_PER_SECOND_SQUARED     = 'm/s^2';
 

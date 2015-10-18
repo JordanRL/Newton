@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Momentum extends Quantity
+class Momentum extends ScalarQuantity
 {
 
     const NEWTON_SECONDS        = 'Ns';

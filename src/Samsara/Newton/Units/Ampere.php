@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Ampere extends Quantity
+class Ampere extends ScalarQuantity
 {
     const AMPERE        = 'A';
     const KILOAMPERE    = 'kA';

@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Density extends Quantity
+class Density extends ScalarQuantity
 {
 
     const KG_PER_CUBIC_METER        = 'kg/m^3';

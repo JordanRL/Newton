@@ -2,8 +2,10 @@
 
 namespace Samsara\Newton\Core;
 
+use Samsara\Fermat\Provider\TrigonometryProvider;
 use Samsara\Newton\Units\Ampere;
 use Samsara\Newton\Units\Charge;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Units\Cycles;
 use Samsara\Newton\Units\Density;
 use Samsara\Newton\Units\Energy;
@@ -16,12 +18,16 @@ use Samsara\Newton\Units\Momentum;
 use Samsara\Newton\Units\Power;
 use Samsara\Newton\Units\Pressure;
 use Samsara\Newton\Units\Temperature;
+use Samsara\Newton\Units\Vector\VectorAcceleration;
+use Samsara\Newton\Units\Vector\VectorForce;
+use Samsara\Newton\Units\Vector\VectorMomentum;
+use Samsara\Newton\Units\Vector\VectorVelocity;
 use Samsara\Newton\Units\Velocity;
 use Samsara\Newton\Units\Acceleration;
 use Samsara\Newton\Units\Time;
 use Samsara\Newton\Units\Voltage;
 use Samsara\Newton\Units\Volume;
-use Samsara\Newton\Provider\MathProvider;
+use Samsara\Fermat\Provider\BCProvider;
 
 class UnitComposition
 {
@@ -431,10 +437,10 @@ class UnitComposition
         foreach ($numerators as $key => $quantity) {
             if ($quantity instanceof Quantity) {
                 $oldUnit = $quantity->getUnit();
-                $newVal = MathProvider::multiply($newVal, $quantity->toNative()->getValue());
+                $newVal = BCProvider::multiply($newVal, $quantity->toNative()->getValue());
                 $quantity->to($oldUnit);
             } elseif (is_numeric($quantity)) {
-                $newVal = MathProvider::multiply($newVal, $quantity);
+                $newVal = BCProvider::multiply($newVal, $quantity);
                 unset($numerators[$key]);
             } else {
                 throw new \Exception('Invalid numerator');
@@ -444,10 +450,10 @@ class UnitComposition
         foreach ($denominators as $key => $quantity) {
             if ($quantity instanceof Quantity) {
                 $oldUnit = $quantity->getUnit();
-                $newVal = MathProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
+                $newVal = BCProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
                 $quantity->to($oldUnit);
             } elseif (is_numeric($quantity)) {
-                $newVal = MathProvider::divide($newVal, $quantity, $precision);
+                $newVal = BCProvider::divide($newVal, $quantity, $precision);
                 unset($denominators[$key]);
             } else {
                 throw new \Exception('Invalid denominator');
@@ -477,10 +483,10 @@ class UnitComposition
         foreach ($numerators as $key => $quantity) {
             if ($quantity instanceof Quantity) {
                 $oldUnit = $quantity->getUnit();
-                $newVal = MathProvider::multiply($newVal, $quantity->toNative()->getValue());
+                $newVal = BCProvider::multiply($newVal, $quantity->toNative()->getValue());
                 $quantity->to($oldUnit);
             } elseif (is_numeric($quantity)) {
-                $newVal = MathProvider::multiply($newVal, $quantity);
+                $newVal = BCProvider::multiply($newVal, $quantity);
                 unset($numerators[$key]);
             } else {
                 throw new \Exception('Invalid numerator');
@@ -490,10 +496,10 @@ class UnitComposition
         foreach ($denominators as $key => $quantity) {
             if ($quantity instanceof Quantity) {
                 $oldUnit = $quantity->getUnit();
-                $newVal = MathProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
+                $newVal = BCProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
                 $quantity->to($oldUnit);
             } elseif (is_numeric($quantity)) {
-                $newVal = MathProvider::divide($newVal, $quantity, $precision);
+                $newVal = BCProvider::divide($newVal, $quantity, $precision);
                 unset($denominators[$key]);
             } else {
                 throw new \Exception('Invalid denominator');
@@ -512,7 +518,37 @@ class UnitComposition
 
         $newUnit = $this->getUnitCompClass($unitComp);
 
-        return $newUnit->preConvertedAdd(MathProvider::squareRoot($newVal, $precision));
+        return $newUnit->preConvertedAdd(BCProvider::squareRoot($newVal, $precision));
+    }
+
+    public function getVectorBySphericalCoords(ScalarQuantity $quantity, $azimuth, $inclination)
+    {
+        if ($quantity instanceof Acceleration) {
+            return new VectorAcceleration($quantity, $azimuth, $inclination);
+        } elseif ($quantity instanceof Force) {
+            return new VectorForce($quantity, $azimuth, $inclination);
+        } elseif ($quantity instanceof Momentum) {
+            return new VectorMomentum($quantity, $azimuth, $inclination);
+        } elseif ($quantity instanceof Velocity) {
+            return new VectorVelocity($quantity, $azimuth, $inclination);
+        } else {
+            throw new \InvalidArgumentException('Non-vectorable scalar unit given.');
+        }
+    }
+
+    public function getVectorByCartesian(ScalarQuantity $quantity, $x, $y, $z = 0)
+    {
+        $azimuth = TrigonometryProvider::sphericalCartesianAzimuth($x, $y);
+        $inclination = TrigonometryProvider::sphericalCartesianInclination($x, $y, $z);
+
+        return $this->getVectorBySphericalCoords($quantity, $azimuth, $inclination);
+    }
+
+    public function getVectorByHeading(ScalarQuantity $quantity, $heading)
+    {
+        $parts = TrigonometryProvider::sphericalFromHeading($heading);
+
+        return $this->getVectorBySphericalCoords($quantity, $parts['azimuth'], $parts['inclination']);
     }
 
 }

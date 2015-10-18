@@ -2,10 +2,10 @@
 
 namespace Samsara\Newton\Units;
 
-use Samsara\Newton\Core\Quantity;
+use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Pressure extends Quantity
+class Pressure extends ScalarQuantity
 {
 
     const PASCAL        = 'Pa';
