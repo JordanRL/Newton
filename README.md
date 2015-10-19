@@ -1,6 +1,6 @@
 # Newton
 
-[![Build Status](https://travis-ci.org/JordanRL/Newton.svg?branch=master)](https://travis-ci.org/JordanRL/Newton) [![Coverage Status](https://coveralls.io/repos/JordanRL/Newton/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/Newton?branch=master)
+[![Build Status](https://travis-ci.org/JordanRL/Newton.svg?branch=master)](https://travis-ci.org/JordanRL/Newton) [![Coverage Status](https://coveralls.io/repos/JordanRL/Newton/badge.svg?branch=master&service=github)](https://coveralls.io/github/JordanRL/Newton?branch=master) [![Latest Stable Version](https://poser.pugx.org/samsara/newton/v/stable)](https://packagist.org/packages/samsara/newton) [![Total Downloads](https://poser.pugx.org/samsara/newton/downloads)](https://packagist.org/packages/samsara/newton) [![Latest Unstable Version](https://poser.pugx.org/samsara/newton/v/unstable)](https://packagist.org/packages/samsara/newton) [![License](https://poser.pugx.org/samsara/newton/license)](https://packagist.org/packages/samsara/newton)
 
 **This project is unit tested against 5.6.X and 7.X, and merges are not accepted unless the tests pass on both.**
 
