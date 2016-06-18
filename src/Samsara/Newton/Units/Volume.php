@@ -22,7 +22,7 @@ class Volume extends ScalarQuantity
 
     protected $native = self::CUBIC_METERS;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::CUBIC_METERS]        => '1',
@@ -31,7 +31,7 @@ class Volume extends ScalarQuantity
             $this->units[self::GALLONS]             => '0.00378541'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::VOLUME);
     }

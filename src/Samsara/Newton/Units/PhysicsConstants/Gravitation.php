@@ -23,10 +23,9 @@ class Gravitation extends ConstantQuantity
         ];
 
         $value = '0.0000000000667384';
-        $unitComposition = new UnitComposition();
         $unit = self::GRAVITATION;
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->defineComposition([
             'length' => 3,

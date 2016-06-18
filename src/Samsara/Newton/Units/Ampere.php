@@ -19,7 +19,7 @@ class Ampere extends ScalarQuantity
 
     protected $native = self::AMPERE;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::AMPERE]      => '1',
@@ -27,7 +27,7 @@ class Ampere extends ScalarQuantity
             $this->units[self::MEGAAMPERE]  => '1000000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::AMPERE);
     }

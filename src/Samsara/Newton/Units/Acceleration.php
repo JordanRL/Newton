@@ -15,13 +15,13 @@ class Acceleration extends ScalarQuantity
 
     protected $native = self::METERS_PER_SECOND_SQUARED;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::METERS_PER_SECOND_SQUARED]   => '1'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::ACCELERATION);
     }

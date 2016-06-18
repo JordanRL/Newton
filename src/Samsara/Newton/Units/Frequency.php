@@ -24,7 +24,7 @@ class Frequency extends ScalarQuantity
 
     protected $native = self::HERTZ;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::HERTZ]       => '1',
@@ -34,7 +34,7 @@ class Frequency extends ScalarQuantity
             $this->units[self::TERAHERTZ]   => '1000000000000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::FREQUENCY);
     }

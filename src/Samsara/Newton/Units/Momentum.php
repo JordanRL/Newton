@@ -22,7 +22,7 @@ class Momentum extends ScalarQuantity
 
     protected $native = self::NEWTON_SECONDS;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::NEWTON_SECONDS]      => '1', // Same as kg-m/s
@@ -30,7 +30,7 @@ class Momentum extends ScalarQuantity
             $this->units[self::MEGANEWTON_SECONDS]  => '1000000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::MOMENTUM);
     }

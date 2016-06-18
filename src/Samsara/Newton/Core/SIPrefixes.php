@@ -2,7 +2,8 @@
 
 namespace Samsara\Newton\Core;
 
-use Samsara\Newton\Provider\BCProvider;
+use Samsara\Fermat\Values\Base\NumberInterface;
+use Samsara\Newton\Units\Core\PrefixContainer;
 
 class SIPrefixes
 {
@@ -28,7 +29,7 @@ class SIPrefixes
     const ATTO  = 'a';
     const ZEPTO = 'z';
 
-    protected $scale = [
+    protected static $scale = [
         self::KILO  => '1000',
         self::MEGA  => '1000000',
         self::GIGA  => '1000000000',
@@ -45,7 +46,7 @@ class SIPrefixes
         self::ZEPTO => '0.000000000000000000001',
     ];
 
-    protected $order = [
+    protected static $order = [
         0 => self::ZEPTO,
         1 => self::ATTO,
         2 => self::FEMTO,
@@ -68,48 +69,39 @@ class SIPrefixes
 
     }
 
-    public function matchBest($value, $pos = 7)
+    public static function matchBest(NumberInterface $value, $pos = 7)
     {
-        /*
-         * Have to use this instead of scalar type hints. Because we are dealing with arbitrarily large numbers, we are
-         * using the bc math extension. This means that all numbers are actually strings in order to retain precision.
-         *
-         * If we used the int or float type hints, PHP 7 would cast string values (which is good), but that would lose
-         * precision in the cast (which is bad).
-         *
-         * is_numeric will achieve the desired effect without altering the $value
-         */
-        if (!is_numeric($value)) {
-            throw new \Exception('Cannot pass a non-numeric value.');
-        }
 
         // The number is more than three orders of magnitude from zero
-        if ($value >= 1000 || $value <= -1000) {
+        if ($value->greaterThanOrEqualTo(1000) || $value->lessThanOrEqualTo(-1000)) {
             // Increase the exponent by three and try again
-            return $this->matchBest(BCProvider::divide($value, 1000), ($pos+1));
+            return self::matchBest($value->divide(1000), ($pos+1));
         }
 
         // The number is a decimal less than one from zero
-        if ($value < 1 && $value > -1 && $value != 0) {
+        if ($value->lessThan(1) && $value->greaterThan(-1) && !$value->equals(0)) {
             // Decrease the exponent by three and try again
-            return $this->matchBest(BCProvider::multiply($value, 1000), ($pos-1));
+            return self::matchBest($value->multiply(1000), ($pos-1));
         }
 
         // If no transformation is needed, we have a special case of the return
         if ($pos == 7) {
-            return [
-                'value' => $value,
-                'scale' => '1',
-                'prefix' => ''
-            ];
+            return new PrefixContainer(1, 7);
         }
 
         // Otherwise, we have our answer
-        return [
-            'value' => $value,
-            'scale' => $this->scale[$this->order[$pos]],
-            'prefix' => $this->order[$pos]
-        ];
+        return new PrefixContainer(self::$scale[self::$order[$pos]], $pos);
+    }
+    
+    public static function getUnitPrefixString($orderVal)
+    {
+        $prefix = self::$order[$orderVal];
+        
+        if ($prefix == 'BASE') {
+            return '';
+        } else {
+            return $prefix;
+        }
     }
 
 }

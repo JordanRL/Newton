@@ -17,14 +17,14 @@ class Energy extends ScalarQuantity
 
     protected $native = self::JOULE;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::JOULE]           => '1',
             $this->units[self::KILOWATTHOUR]    => '3600'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::ENERGY);
     }

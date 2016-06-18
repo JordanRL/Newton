@@ -22,10 +22,9 @@ class Planck extends ConstantQuantity
         ];
 
         $value = '0.000000000000000000000000000000000662606957';
-        $unitComposition = new UnitComposition();
         $unit = self::PLANCK;
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->defineComposition([
             'length' => 2,

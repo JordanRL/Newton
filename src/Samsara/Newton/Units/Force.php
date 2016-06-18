@@ -21,7 +21,7 @@ class Force extends ScalarQuantity
 
     protected $native = self::NEWTON;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::NEWTON]      => '1',
@@ -30,7 +30,7 @@ class Force extends ScalarQuantity
             $this->units[self::GIGANEWTON]  => '1000000000',
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::FORCE);
     }

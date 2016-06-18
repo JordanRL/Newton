@@ -32,7 +32,7 @@ abstract class VectorQuantity extends Quantity
 
         $this->defineComposition($scalarClass->getUnitsPresent());
 
-        parent::__construct($scalarClass->getValue(), $scalarClass->getUnitCompositionClass(), $scalarClass->getUnit());
+        parent::__construct($scalarClass->getValue(), $scalarClass->getUnit());
     }
 
     /**

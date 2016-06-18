@@ -23,7 +23,7 @@ class Voltage extends ScalarQuantity
 
     protected $native = self::VOLTS;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::VOLTS]       => '1',
@@ -33,7 +33,7 @@ class Voltage extends ScalarQuantity
             $this->units[self::TERRAVOLTS]  => '1000000000000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::VOLTAGE);
     }

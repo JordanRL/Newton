@@ -27,7 +27,7 @@ class Time extends ScalarQuantity
         self::MILLISECOND   => 7
     ];
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::MILLISECOND] => '0.001',
@@ -39,7 +39,7 @@ class Time extends ScalarQuantity
             $this->units[self::YEAR]        => '31556736'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::TIME);
     }

@@ -23,7 +23,7 @@ class Mass extends ScalarQuantity
         self::METRIC_TON    => 5
     ];
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::MICROGRAM]       => '0.000000001',
@@ -33,7 +33,7 @@ class Mass extends ScalarQuantity
             $this->units[self::METRIC_TON]      => '1000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::MASS);
     }

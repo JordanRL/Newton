@@ -17,14 +17,14 @@ class Charge extends ScalarQuantity
 
     protected $native = self::COULOMB;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::COULOMB]     => '1',
             $this->units[self::KILOCOULOMB] => '1000'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::CHARGE);
     }

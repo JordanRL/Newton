@@ -21,7 +21,7 @@ class Velocity extends ScalarQuantity
 
     protected $native = self::METERS_PER_SECOND;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::METERS_PER_SECOND]       => '1',
@@ -30,7 +30,7 @@ class Velocity extends ScalarQuantity
             $this->units[self::AU_PER_SECOND]           => '149597870700'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::VELOCITY);
     }

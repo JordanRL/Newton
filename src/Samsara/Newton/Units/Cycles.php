@@ -16,13 +16,13 @@ class Cycles extends ScalarQuantity
 
     protected $native = self::CYCLES;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::CYCLES] => '1',
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::CYCLES);
     }

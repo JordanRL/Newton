@@ -2,7 +2,9 @@
 
 namespace Samsara\Newton\Core;
 
+use Samsara\Fermat\Numbers;
 use Samsara\Fermat\Provider\BCProvider;
+use Samsara\Fermat\Values\Base\NumberInterface;
 
 /**
  * Class Quantity
@@ -49,7 +51,7 @@ abstract class Quantity
      * because with the scale differences of the various units it is extremely likely that the maximum integer size
      * for PHP might be exceeded, and data loss might occur.
      *
-     * @var string
+     * @var NumberInterface
      */
     private $value;
 
@@ -78,19 +80,18 @@ abstract class Quantity
 
     /**
      * @param float|int|string  $value
-     * @param UnitComposition   $unitComposition
      * @param string            $unit
      */
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         if (is_null($unit)) {
             $this->unit = $this->native;
         } else {
             $this->unit = $unit;
         }
-        $this->value = (string)$value;
+        $this->value = Numbers::makeOrDont(Numbers::IMMUTABLE, $value);
 
-        $this->unitCompClass = $unitComposition;
+        $this->unitCompClass = UnitComposition::getInstance();
     }
 
     /**
@@ -106,7 +107,7 @@ abstract class Quantity
     /**
      * Converts the value of the current unit to its native units.
      *
-     * @return $this
+     * @return Quantity
      */
     public function toNative()
     {
@@ -203,7 +204,7 @@ abstract class Quantity
     /**
      * Returns the current numerical value.
      *
-     * @return string|int|float
+     * @return NumberInterface
      */
     public function getValue()
     {
@@ -233,12 +234,12 @@ abstract class Quantity
     /**
      * Add a number to the value without consideration to conversion or units.
      *
-     * @param   string|int|float $value
+     * @param   string|int|float|NumberInterface $value
      * @return  $this
      */
     public function preConvertedAdd($value)
     {
-        $this->value = BCProvider::add($this->value, $value);
+        $this->value = $this->value->add($value);
 
         return $this;
     }
@@ -246,12 +247,12 @@ abstract class Quantity
     /**
      * Subtract a number to the value without consideration to conversion or units.
      *
-     * @param   string|int|float $value
+     * @param   string|int|float|NumberInterface $value
      * @return  $this
      */
     public function preConvertedSubtract($value)
     {
-        $this->value = BCProvider::subtract($this->value, $value);
+        $this->value = $this->value->subtract($value);
 
         return $this;
     }
@@ -259,12 +260,12 @@ abstract class Quantity
     /**
      * Multiply a number by the value without consideration to conversion or units.
      *
-     * @param   string|int|float $value
+     * @param   string|int|float|NumberInterface $value
      * @return  $this
      */
     public function preConvertedMultiply($value)
     {
-        $this->value = BCProvider::multiply($this->value, $value);
+        $this->value = $this->value->multiply($value);
 
         return $this;
     }
@@ -272,13 +273,13 @@ abstract class Quantity
     /**
      * Divide a number by the value without consideration to conversion or units.
      *
-     * @param   string|int|float $value
+     * @param   string|int|float|NumberInterface $value
      * @param   int $precision
      * @return  $this
      */
     public function preConvertedDivide($value, $precision = 2)
     {
-        $this->value = BCProvider::divide($this->value, $value, $precision);
+        $this->value = $this->value->divide($value)->roundToPrecision($precision);
 
         return $this;
     }
@@ -298,7 +299,7 @@ abstract class Quantity
 
         $oldUnit = $quantity->getUnit();
 
-        $this->value = BCProvider::add($quantity->to($this->unit)->getValue(), $this->value);
+        $this->value = $this->value->add($quantity->to($this->unit)->getValue());
 
         $quantity->to($oldUnit);
 
@@ -321,7 +322,7 @@ abstract class Quantity
 
         $oldUnit = $quantity->getUnit();
 
-        $this->value = BCProvider::subtract($this->value, $quantity->to($this->unit)->getValue());
+        $this->value = $this->value->subtract($quantity->to($this->unit)->getValue());
 
         $quantity->to($oldUnit);
 
@@ -408,21 +409,46 @@ abstract class Quantity
      */
     public function __toString()
     {
-        return $this->value.' '.$this->unit;
+        return $this->value->getValue().' '.$this->unit;
     }
 
     /**
      *
      *
-     * @param   string|int|float $value
+     * @param   NumberInterface $value
      * @param   string $from
      * @param   string $to
      * @return  string
      * @throws  \Exception
      */
-    protected function convert($value, $from, $to)
+    protected function convert(NumberInterface $value, $from, $to)
     {
-        return BCProvider::divide(BCProvider::multiply($value, $this->getConversionRate($from)), $this->getConversionRate($to));
+        if (!is_array($this->rates[$to]) && !is_array($this->rates[$from])) {
+            // For simple, scaling conversions
+            return $value->multiply($this->getConversionRate($from))->divide($this->getConversionRate($to));
+        } else {
+            // For more complex conversions, like that between Celsius and Fahrenheit.
+            // From and To callables must be how to get to native unit
+            if (is_array($this->rates[$to])) {
+                /** @var callable $toConversion */
+                $toConversion = $this->rates[$to]['to'];
+            } else {
+                $toConversion = function(NumberInterface $value) use ($to){
+                    return $value->divide($this->getConversionRate($to));
+                };
+            }
+
+            if (is_array($this->rates[$from])) {
+                /** @var callable $fromConversion */
+                $fromConversion = $this->rates[$from]['from'];
+            } else {
+                $fromConversion = function(NumberInterface $value) use ($from){
+                    return $value->multiply($this->getConversionRate($from));
+                };
+            }
+
+            return $toConversion($fromConversion($value));
+        }
     }
 
     /**

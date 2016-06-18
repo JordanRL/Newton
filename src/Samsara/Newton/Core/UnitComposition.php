@@ -2,7 +2,9 @@
 
 namespace Samsara\Newton\Core;
 
+use Samsara\Fermat\Numbers;
 use Samsara\Fermat\Provider\TrigonometryProvider;
+use Samsara\Fermat\Values\Base\NumberInterface;
 use Samsara\Newton\Units\Ampere;
 use Samsara\Newton\Units\Charge;
 use Samsara\Newton\Units\Core\ScalarQuantity;
@@ -27,7 +29,6 @@ use Samsara\Newton\Units\Acceleration;
 use Samsara\Newton\Units\Time;
 use Samsara\Newton\Units\Voltage;
 use Samsara\Newton\Units\Volume;
-use Samsara\Fermat\Provider\BCProvider;
 
 class UnitComposition
 {
@@ -166,13 +167,27 @@ class UnitComposition
         'cycles'
     ];
 
-    public function __construct()
+    /**
+     * @var UnitComposition
+     */
+    private static $instance;
+
+    private function __construct()
     {
         foreach ($this->unitComp as $unit => $unitDef) {
             ksort($unitDef);
 
             $this->unitComp[$unit] = $unitDef;
         }
+    }
+    
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new UnitComposition();
+        }
+        
+        return self::$instance;
     }
 
     /**
@@ -226,19 +241,21 @@ class UnitComposition
         }
 
         foreach ($numerators as $unit) {
-            /** @var Quantity $unit */
-            foreach ($unit->getUnitsPresent() as $unitType => $unitCount) {
-                if ($unitCount != 0) {
-                    $unitComp[$unitType] += $unitCount;
+            if ($unit instanceof Quantity) {
+                foreach ($unit->getUnitsPresent() as $unitType => $unitCount) {
+                    if ($unitCount != 0) {
+                        $unitComp[$unitType] += $unitCount;
+                    }
                 }
             }
         }
 
         foreach ($denominators as $unit) {
-            /** @var Quantity $unit */
-            foreach ($unit->getUnitsPresent() as $unitType => $unitCount) {
-                if ($unitCount != 0) {
-                    $unitComp[$unitType] -= $unitCount;
+            if ($unit instanceof Quantity) {
+                foreach ($unit->getUnitsPresent() as $unitType => $unitCount) {
+                    if ($unitCount != 0) {
+                        $unitComp[$unitType] -= $unitCount;
+                    }
                 }
             }
         }
@@ -311,7 +328,7 @@ class UnitComposition
      * Gets the unit class from the unit name.
      *
      * @param   string $unit
-     * @param   int $value
+     * @param   int|NumberInterface $value
      * @return  Quantity
      * @throws  \Exception
      */
@@ -319,61 +336,61 @@ class UnitComposition
     {
         switch ($unit) {
             case self::ACCELERATION:
-                return new Acceleration($value, $this);
+                return new Acceleration($value);
 
             case self::AMPERE:
-                return new Ampere($value, $this);
+                return new Ampere($value);
 
             case self::AREA:
-                return new Area($value, $this);
+                return new Area($value);
 
             case self::CHARGE:
-                return new Charge($value, $this);
+                return new Charge($value);
 
             case self::CYCLES:
-                return new Cycles($value, $this);
+                return new Cycles($value);
 
             case self::ENERGY:
-                return new Energy($value, $this);
+                return new Energy($value);
 
             case self::DENSITY:
-                return new Density($value, $this);
+                return new Density($value);
 
             case self::FORCE:
-                return new Force($value, $this);
+                return new Force($value);
 
             case self::FREQUENCY:
-                return new Frequency($value, $this);
+                return new Frequency($value);
 
             case self::LENGTH:
-                return new Length($value, $this);
+                return new Length($value);
 
             case self::MASS:
-                return new Mass($value, $this);
+                return new Mass($value);
 
             case self::MOMENTUM:
-                return new Momentum($value, $this);
+                return new Momentum($value);
 
             case self::POWER:
-                return new Power($value, $this);
+                return new Power($value);
 
             case self::PRESSURE:
-                return new Pressure($value, $this);
+                return new Pressure($value);
 
             case self::TEMPERATURE:
-                return new Temperature($value, $this);
+                return new Temperature($value);
 
             case self::TIME:
-                return new Time($value, $this);
+                return new Time($value);
 
             case self::VELOCITY:
-                return new Velocity($value, $this);
+                return new Velocity($value);
 
             case self::VOLTAGE:
-                return new Voltage($value, $this);
+                return new Voltage($value);
 
             case self::VOLUME:
-                return new Volume($value, $this);
+                return new Volume($value);
 
             default:
                 if (array_key_exists($unit, $this->dynamicUnits)) {
@@ -382,7 +399,7 @@ class UnitComposition
                     $parent = $class->getParentClass();
 
                     if ($parent && ($parent->getName() == 'Samsara\\Newton\\Core\\Quantity' || $parent->getName() == 'Samsara\\Newton\\Units\\Core\\ScalarQuantity')) {
-                        return $class->newInstance($value, $this);
+                        return $class->newInstance($value);
                     } else {
                         throw new \Exception('Valid units must extend the Quantity class.');
                     }
@@ -432,39 +449,7 @@ class UnitComposition
      */
     public function naiveMultiOpt(array $numerators, array $denominators, $precision = 2)
     {
-        $newVal = 1;
-
-        foreach ($numerators as $key => $quantity) {
-            if ($quantity instanceof Quantity) {
-                $oldUnit = $quantity->getUnit();
-                $newVal = BCProvider::multiply($newVal, $quantity->toNative()->getValue());
-                $quantity->to($oldUnit);
-            } elseif (is_numeric($quantity)) {
-                $newVal = BCProvider::multiply($newVal, $quantity);
-                unset($numerators[$key]);
-            } else {
-                throw new \Exception('Invalid numerator');
-            }
-        }
-
-        foreach ($denominators as $key => $quantity) {
-            if ($quantity instanceof Quantity) {
-                $oldUnit = $quantity->getUnit();
-                if ($quantity->getValue() == 0) {
-                    throw new \Exception('Cannot divide by zero.');
-                }
-                $newVal = BCProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
-                $quantity->to($oldUnit);
-            } elseif (is_numeric($quantity)) {
-                if ($quantity == 0) {
-                    throw new \Exception('Cannot divide by zero.');
-                }
-                $newVal = BCProvider::divide($newVal, $quantity, $precision);
-                unset($denominators[$key]);
-            } else {
-                throw new \Exception('Invalid denominator');
-            }
-        }
+        $newVal = $this->multiOptValue($numerators, $denominators, $precision);
 
         $newUnit = $this->getMultiUnits($numerators, $denominators);
 
@@ -484,47 +469,23 @@ class UnitComposition
      */
     public function naiveSquareRoot(array $numerators, array $denominators, $precision = 2)
     {
-        $newVal = 1;
-
-        foreach ($numerators as $key => $quantity) {
-            if ($quantity instanceof Quantity) {
-                $oldUnit = $quantity->getUnit();
-                $newVal = BCProvider::multiply($newVal, $quantity->toNative()->getValue());
-                $quantity->to($oldUnit);
-            } elseif (is_numeric($quantity)) {
-                $newVal = BCProvider::multiply($newVal, $quantity);
-                unset($numerators[$key]);
-            } else {
-                throw new \Exception('Invalid numerator');
-            }
-        }
-
-        foreach ($denominators as $key => $quantity) {
-            if ($quantity instanceof Quantity) {
-                $oldUnit = $quantity->getUnit();
-                $newVal = BCProvider::divide($newVal, $quantity->toNative()->getValue(), $precision);
-                $quantity->to($oldUnit);
-            } elseif (is_numeric($quantity)) {
-                $newVal = BCProvider::divide($newVal, $quantity, $precision);
-                unset($denominators[$key]);
-            } else {
-                throw new \Exception('Invalid denominator');
-            }
-        }
+        $newVal = $this->multiOptValue($numerators, $denominators, $precision);
 
         $unitComp = $this->getUnitCompArray($numerators, $denominators);
+
+        $newUnitComp = [];
 
         foreach ($unitComp as $unit => $exp) {
             $newExp = $exp/2;
             if (!is_int($newExp)) {
                 throw new \Exception('Incorrect exponents after square root.');
             }
-            $unitComp[$unit] = $newExp;
+            $newUnitComp[$unit] = $newExp;
         }
 
-        $newUnit = $this->getUnitCompClass($unitComp);
+        $newUnit = $this->getUnitCompClass($newUnitComp);
 
-        return $newUnit->preConvertedAdd(BCProvider::squareRoot($newVal, $precision));
+        return $newUnit->preConvertedAdd($newVal->sqrt()->roundToPrecision($precision));
     }
 
     public function getVectorBySphericalCoords(ScalarQuantity $quantity, $azimuth, $inclination)
@@ -555,6 +516,51 @@ class UnitComposition
         $parts = TrigonometryProvider::sphericalFromHeading($heading);
 
         return $this->getVectorBySphericalCoords($quantity, $parts['azimuth'], $parts['inclination']);
+    }
+
+    /**
+     * @param array $numerators
+     * @param array $denominators
+     * @param int   $precision
+     *
+     * @return NumberInterface
+     * @throws \Exception
+     */
+    protected function multiOptValue(array $numerators, array $denominators, $precision = 2)
+    {
+        $newVal = Numbers::make(Numbers::IMMUTABLE, 1);
+
+        foreach ($numerators as $key => $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                $newVal = $newVal->multiply($quantity->toNative()->getValue());
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                $newVal = $newVal->multiply($quantity);
+            } else {
+                throw new \Exception('Invalid numerator');
+            }
+        }
+
+        foreach ($denominators as $key => $quantity) {
+            if ($quantity instanceof Quantity) {
+                $oldUnit = $quantity->getUnit();
+                if ($quantity->getValue() == 0) {
+                    throw new \Exception('Cannot divide by zero.');
+                }
+                $newVal = $newVal->divide($quantity->toNative()->getValue())->roundToPrecision($precision);
+                $quantity->to($oldUnit);
+            } elseif (is_numeric($quantity)) {
+                if ($quantity == 0) {
+                    throw new \Exception('Cannot divide by zero.');
+                }
+                $newVal = $newVal->divide($quantity)->roundToPrecision($precision);
+            } else {
+                throw new \Exception('Invalid denominator');
+            }
+        }
+
+        return $newVal;
     }
 
 }

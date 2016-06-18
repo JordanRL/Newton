@@ -295,7 +295,7 @@ class PhysicsProvider
 
         $gravitation = new Gravitation();
 
-        $unitComposition = new UnitComposition();
+        $unitComposition = UnitComposition::getInstance();
 
         if (array_key_exists('mass', $vals) && count($vals['mass']) == 2) {
             if (array_key_exists('length', $vals)) {

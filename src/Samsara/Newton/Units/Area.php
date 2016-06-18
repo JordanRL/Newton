@@ -31,7 +31,7 @@ class Area extends ScalarQuantity
         self::SQUARE_MILE       => 8
     ];
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::SQUARE_METER]        => '1',
@@ -44,7 +44,7 @@ class Area extends ScalarQuantity
             $this->units[self::SQUARE_MILE]         => '2589988.110336'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::AREA);
     }

@@ -32,7 +32,7 @@ class Pressure extends ScalarQuantity
 
     protected $native = self::PASCAL;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::PASCAL]      => '1',
@@ -46,7 +46,7 @@ class Pressure extends ScalarQuantity
             $this->units[self::PSI]         => '6894.8'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::PRESSURE);
     }

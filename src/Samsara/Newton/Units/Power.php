@@ -27,7 +27,7 @@ class Power extends ScalarQuantity
 
     protected $native = self::WATT;
 
-    public function __construct($value, UnitComposition $unitComposition, $unit = null)
+    public function __construct($value, $unit = null)
     {
         $this->rates = [
             $this->units[self::WATT]            => '1',
@@ -39,7 +39,7 @@ class Power extends ScalarQuantity
             $this->units[self::HORSEPOWER]      => '745.699872'
         ];
 
-        parent::__construct($value, $unitComposition, $unit);
+        parent::__construct($value, $unit);
 
         $this->setComposition(UnitComposition::POWER);
     }
