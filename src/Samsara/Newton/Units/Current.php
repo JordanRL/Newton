@@ -5,7 +5,7 @@ namespace Samsara\Newton\Units;
 use Samsara\Newton\Units\Core\ScalarQuantity;
 use Samsara\Newton\Core\UnitComposition;
 
-class Ampere extends ScalarQuantity
+class Current extends ScalarQuantity
 {
     const AMPERE        = 'A';
     const KILOAMPERE    = 'kA';
@@ -29,7 +29,7 @@ class Ampere extends ScalarQuantity
 
         parent::__construct($value, $unit);
 
-        $this->setComposition(UnitComposition::AMPERE);
+        $this->setComposition(UnitComposition::CURRENT);
     }
 
 }

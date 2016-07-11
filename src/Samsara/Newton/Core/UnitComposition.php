@@ -32,25 +32,42 @@ use Samsara\Newton\Units\Volume;
 
 class UnitComposition
 {
-    const ACCELERATION  = 'Acceleration';
-    const AMPERE        = 'Ampere';
-    const AREA          = 'Area';
-    const CHARGE        = 'Charge';
-    const CYCLES        = 'Cycles';
-    const DENSITY       = 'Density';
-    const ENERGY        = 'Energy';
-    const FORCE         = 'Force';
-    const FREQUENCY     = 'Frequency';
-    const LENGTH        = 'Length';
-    const MASS          = 'Mass';
-    const MOMENTUM      = 'Momentum';
-    const POWER         = 'Power';
-    const PRESSURE      = 'Pressure';
-    const TEMPERATURE   = 'Temperature';
-    const TIME          = 'Time';
-    const VELOCITY      = 'Velocity';
-    const VOLTAGE       = 'Voltage';
-    const VOLUME        = 'Volume';
+    const ABSORBED_DOSE             = 'Absorbed Dose';
+    const ACCELERATION              = 'Acceleration';
+    const AMOUNT                    = 'Amount';
+    const ANGULAR_ACCELERATION      = 'Angular Acceleration';
+    const ANGULAR_VELOCITY          = 'Angular Velocity';
+    const AREA                      = 'Area';
+    const CAPACITANCE               = 'Capacitance';
+    const CATALYTIC_ACTIVITY        = 'Catalytic Activity';
+    const CHARGE                    = 'Charge';
+    const CONDUCTANCE_ELEC          = 'Electric Conductance';
+    const CONDUCTANCE_THERM         = 'Thermal Conductance';
+    const CURRENT                   = 'Current';
+    const CYCLES                    = 'Cycles';
+    const DENSITY                   = 'Density';
+    const ENERGY                    = 'Energy';
+    const FORCE                     = 'Force';
+    const FREQUENCY                 = 'Frequency';
+    const ILLUMINATION              = 'Illumination';
+    const INDUCTANCE                = 'Inductance';
+    const LENGTH                    = 'Length';
+    const LUMINOUS_FLUX             = 'Luminous Flux';
+    const LUMINOUS_INTENSITY        = 'Luminous Intensity';
+    const MAG_FLUX                  = 'Magnetic Flux';
+    const MAG_FLUX_DENSITY          = 'Magnetic Flux Density';
+    const MASS                      = 'Mass';
+    const MOMENTUM                  = 'Momentum';
+    const PLANE_ANGLE               = 'Plane Angle';
+    const POWER                     = 'Power';
+    const PRESSURE                  = 'Pressure';
+    const RESISTANCE                = 'Resistance';
+    const SOLID_ANGLE               = 'Solid Angle';
+    const TEMPERATURE               = 'Temperature';
+    const TIME                      = 'Time';
+    const VELOCITY                  = 'Velocity';
+    const VOLTAGE                   = 'Voltage';
+    const VOLUME                    = 'Volume';
 
     /**
      * This array describes the composition in base units of measure each of the classes which come by default with
@@ -68,20 +85,57 @@ class UnitComposition
      *
      * @var array
      */
-    public $unitComp = [
+    protected $unitComp = [
+        self::ABSORBED_DOSE => [
+            'length' => 2,
+            'time' => -2
+        ],
         self::ACCELERATION => [
             'length' => 1,
             'time' => -2
         ],
-        self::AMPERE => [
-            'electricCurrent' => 1
+        self::AMOUNT => [
+            'mol' => 1
+        ],
+        self::ANGULAR_ACCELERATION => [
+            'planeAngle' => 1,
+            'time' => -2
+        ],
+        self::ANGULAR_VELOCITY => [
+            'planeAngle' => 1,
+            'time' => -1
         ],
         self::AREA => [
             'length' => 2
         ],
+        self::CAPACITANCE => [
+            'time' => 4,
+            'electricCurrent' => 2,
+            'mass' => -1,
+            'length' => -2
+        ],
+        self::CATALYTIC_ACTIVITY => [
+            'mol' => 1,
+            'time' => -1
+        ],
         self::CHARGE => [
             'electricCurrent' => 1,
             'time' => 1
+        ],
+        self::CONDUCTANCE_ELEC => [
+            'time' => 3,
+            'electricCurrent' => 2,
+            'mass' => -1,
+            'length' => -2
+        ],
+        self::CONDUCTANCE_THERM => [
+            'mass' => 1,
+            'length' => 1,
+            'time' => -3,
+            'temperature' => -1
+        ],
+        self::CURRENT => [
+            'electricCurrent' => 1
         ],
         self::CYCLES => [
             'cycles' => 1
@@ -104,8 +158,37 @@ class UnitComposition
             'cycles' => 1,
             'time' => -1
         ],
+        self::ILLUMINATION => [
+            'luminousIntensity' => 1,
+            'solidAngle' => 1,
+            'length' => -2
+        ],
+        self::INDUCTANCE => [
+            'mass' => 1,
+            'length' => 2,
+            'time' => -2,
+            'electricCurrent' => -2
+        ],
         self::LENGTH => [
             'length' => 1
+        ],
+        self::LUMINOUS_FLUX => [
+            'luminousIntensity' => 1,
+            'solidAngle' => 1
+        ],
+        self::LUMINOUS_INTENSITY => [
+            'luminousIntensity' => 1
+        ],
+        self::MAG_FLUX => [
+            'mass' => 1,
+            'length' => 2,
+            'time' => -2,
+            'electricCurrent' => -1
+        ],
+        self::MAG_FLUX_DENSITY => [
+            'mass' => 1,
+            'time' => -2,
+            'electricCurrent' => -1
         ],
         self::MASS => [
             'mass' => 1
@@ -114,6 +197,9 @@ class UnitComposition
             'mass' => 1,
             'length' => 1,
             'time' => -1
+        ],
+        self::PLANE_ANGLE => [
+            'planeAngle' => 1
         ],
         self::POWER => [
             'mass' => 1,
@@ -124,6 +210,15 @@ class UnitComposition
             'mass' => 1,
             'length' => -1,
             'time' => -2
+        ],
+        self::RESISTANCE => [
+            'mass' => 1,
+            'length' => 2,
+            'time' => -3,
+            'electricCurrent' => -2
+        ],
+        self::SOLID_ANGLE => [
+            'solidAngle' => 1
         ],
         self::TEMPERATURE => [
             'temp' => 1
@@ -151,7 +246,7 @@ class UnitComposition
      *
      * @var array
      */
-    public $dynamicUnits = [];
+    protected $dynamicUnits = [];
 
     /**
      * The acceptable base composition types.
@@ -164,7 +259,11 @@ class UnitComposition
         'time',
         'temp',
         'electricCurrent',
-        'cycles'
+        'cycles',
+        'luminousIntensity',
+        'mol',
+        'planeAngle',
+        'solidAngle'
     ];
 
     /**
@@ -188,6 +287,15 @@ class UnitComposition
         }
         
         return self::$instance;
+    }
+    
+    public function getCompArrayByName($name)
+    {
+        if (!isset($this->unitComp[$name])) {
+            throw new \Exception('Cannot return unit composition array for non-existent unit: '.$name);
+        }
+        
+        return $this->unitComp[$name];
     }
 
     /**
@@ -338,7 +446,7 @@ class UnitComposition
             case self::ACCELERATION:
                 return new Acceleration($value);
 
-            case self::AMPERE:
+            case self::CURRENT:
                 return new Ampere($value);
 
             case self::AREA:

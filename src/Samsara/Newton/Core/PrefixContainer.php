@@ -1,9 +1,8 @@
 <?php
 
-namespace Samsara\Newton\Units\Core;
+namespace Samsara\Newton\Core;
 
 use Samsara\Fermat\Values\Base\NumberInterface;
-use Samsara\Newton\Core\SIPrefixes;
 
 class PrefixContainer
 {

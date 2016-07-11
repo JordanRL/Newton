@@ -3,7 +3,6 @@
 namespace Samsara\Newton\Core;
 
 use Samsara\Fermat\Values\Base\NumberInterface;
-use Samsara\Newton\Units\Core\PrefixContainer;
 
 class SIPrefixes
 {
@@ -64,9 +63,9 @@ class SIPrefixes
         14 => self::ZETTA
     ];
 
-    public function convertTo($value, $unit)
+    public function convertTo(PrefixContainer $prefix, NumberInterface $value, $unitSymbol)
     {
-
+        
     }
 
     public static function matchBest(NumberInterface $value, $pos = 7)

@@ -77,6 +77,8 @@ abstract class Quantity
      * @var UnitComposition
      */
     private $unitCompClass;
+    
+    private $alias;
 
     /**
      * @param float|int|string  $value
@@ -411,6 +413,16 @@ abstract class Quantity
     {
         return $this->value->getValue().' '.$this->unit;
     }
+    
+    public function useAs($alias)
+    {
+        
+    }
+    
+    public function hasAlias($alias)
+    {
+        return $this->alias === $alias;
+    }
 
     /**
      *
@@ -459,7 +471,7 @@ abstract class Quantity
      */
     protected function setComposition($key)
     {
-        $this->unitTypesPresent = $this->unitCompClass->unitComp[$key];
+        $this->unitTypesPresent = $this->unitCompClass->getCompArrayByName($key);
 
         return $this;
     }
