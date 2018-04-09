@@ -3,8 +3,7 @@
 namespace Samsara\Newton\Core;
 
 use Samsara\Fermat\Numbers;
-use Samsara\Fermat\Provider\BCProvider;
-use Samsara\Fermat\Values\Base\NumberInterface;
+use Samsara\Fermat\Types\Base\NumberInterface;
 
 /**
  * Class Quantity

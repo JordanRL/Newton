@@ -8,6 +8,7 @@ use Samsara\Fermat\Values\Base\NumberInterface;
 use Samsara\Newton\Units\Ampere;
 use Samsara\Newton\Units\Charge;
 use Samsara\Newton\Units\Core\ScalarQuantity;
+use Samsara\Newton\Units\Current;
 use Samsara\Newton\Units\Cycles;
 use Samsara\Newton\Units\Density;
 use Samsara\Newton\Units\Energy;
@@ -61,6 +62,7 @@ class UnitComposition
     const PLANE_ANGLE               = 'Plane Angle';
     const POWER                     = 'Power';
     const PRESSURE                  = 'Pressure';
+    const RADIOACTIVITY             = 'Radioactivity';
     const RESISTANCE                = 'Resistance';
     const SOLID_ANGLE               = 'Solid Angle';
     const TEMPERATURE               = 'Temperature';
@@ -211,6 +213,9 @@ class UnitComposition
             'length' => -1,
             'time' => -2
         ],
+        self::RADIOACTIVITY => [
+            'time' => -1
+        ],
         self::RESISTANCE => [
             'mass' => 1,
             'length' => 2,
@@ -221,7 +226,7 @@ class UnitComposition
             'solidAngle' => 1
         ],
         self::TEMPERATURE => [
-            'temp' => 1
+            'temperature' => 1
         ],
         self::TIME => [
             'time' => 1
@@ -257,7 +262,7 @@ class UnitComposition
         'length',
         'mass',
         'time',
-        'temp',
+        'temperature',
         'electricCurrent',
         'cycles',
         'luminousIntensity',
@@ -447,7 +452,7 @@ class UnitComposition
                 return new Acceleration($value);
 
             case self::CURRENT:
-                return new Ampere($value);
+                return new Current($value);
 
             case self::AREA:
                 return new Area($value);
